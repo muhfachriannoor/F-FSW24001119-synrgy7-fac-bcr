@@ -7,7 +7,7 @@ function sortCarByYearDescendingly(cars) {
   const result = [...cars];
 
   // Tulis code-mu disini
-  Array.prototype.bubbleSort = function () {
+  Array.prototype.bubbleSortDesc = function () {
     let n = this.length;
     for (let i = 0; i < n - 1; i++) {
       for (let j = 0; j < n - i - 1; j++) {
@@ -20,7 +20,7 @@ function sortCarByYearDescendingly(cars) {
     }
   };
 
-  result.bubbleSort();
+  result.bubbleSortDesc();
   // Rubah code ini dengan array hasil sorting secara descending
   return result;
 }
