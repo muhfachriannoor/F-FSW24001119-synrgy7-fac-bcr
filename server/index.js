@@ -40,7 +40,7 @@ function onRequest(req, res) {
     req.url = "/index.html";
   } else if (req.url === "/example") {
     req.url = "/index.example.html";
-  } else if (req.url === "/car") {
+  } else if (req.url === "/cars") {
     req.url = "/filter-car.html";
   }
 
