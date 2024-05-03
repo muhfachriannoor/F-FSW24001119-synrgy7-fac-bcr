@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Challenge 4 (Fahri)</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <!--BOOTSTRAP 5.3-->
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
+    <!--OWL CAROUSEL-->
+    <link rel="stylesheet" href="./owlCarousel/owl.carousel.min.css" />
+    <link
+      rel="stylesheet"
+      href="./owlCarousel/owl.theme.default.min.css"
+    />
+    <!--CUSTOM AND RESPONSIVE-->
+    <link rel="stylesheet" href="./css/custom.css" />
+    <link rel="stylesheet" href="./css/responsive.css" />
+  </head>
+
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg top-0 start-0 end-0 py-5 bg--gray">
+        <div class="container">
+          <div class="navbar__header-logo bg--dark-blue-04"></div>
+          <button
+            class="navbar-toggler border border-0"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasNavRight"
+            aria-controls="offcanvasNavRight">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div
+            class="offcanvas offcanvas-end"
+            tabindex="-1"
+            id="offcanvasNavRight"
+            aria-labelledby="offcanvasNavRightLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title">BCR</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link" href="#services">Our Service</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#why-us">Why Us</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#testimonial">Testimonial</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#faq">FAQ</a>
+                </li>
+              </ul>
+              <a class="btn bg--lime-green-04" href="#">Register</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <section id="hero" class="section-hero bg--gray overflow-hidden">
+        <div class="container">
+          <div class="row align-items-center justify-content-between gap-5">
+            <div class="hero__content col-lg-6">
+              <h1 class="hero__title mb-4">
+                Sewa & Rental Mobil Terbaik di kawasan (Lokasimu)
+              </h1>
+              <p class="hero__sub-title">
+                Selamat datang di Binar Car Rental. Kami menyediakan mobil
+                kualitas terbaik dengan harga terjangkau. Selalu siap melayani
+                kebutuhanmu untuk sewa mobil selama 24 jam.
+              </p>
+              <button class="btn bg--lime-green-04">Mulai Sewa Mobil</button>
+            </div>
+            <div class="hero__banner col-lg">
+              <img src="./images/img_car.svg" class="img-fluid hero__img" />
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="filter-car" class="section-filter-car">
+        <div class="position-relative">
+          <div class="position-absolute start-50 translate-middle filter-box">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex justify-content-center flex-row mb-3 gap-3">
+                  <div>
+                    <div class="form-group">
+                      <label class="form-label">Tipe Driver</label>
+                      <select name="type-driver" class="form-select" id="type-driver">
+                        <option value="" disabled selected hidden>
+                          Pilih Tipe Driver
+                        </option>
+                        <option value="dengan-sopir">Dengan Sopir</option>
+                        <option value="tanpa-sopir">
+                          Tanpa Sopir (Lepas Kunci)
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div style="width: 20%;">
+                    <div class="form-group">
+                      <label class="form-label">Tanggal</label>
+                      <input name="date-car" type="date" class="form-control" id="date-car" placeholder="Pilih Tanggal">
+                    </div>
+                  </div>
+                  <div style="width: 20%;">
+                    <div class="form-group">
+                      <label class="form-label">Waktu Jemput/Ambil</label>
+                      <input name="pick-time" type="time" class="form-control" id="pick-time" placeholder="Pilih Waktu">
+                      <!--<select name="pick-time" class="form-select" id="pick-time">
+                        <option value="" disabled selected hidden>
+                          Pilih Waktu
+                        </option>
+                        <option value="08:00">08.00 WIB</option>
+                        <option value="09:00">09.00 WIB</option>
+                        <option value="10:00">10.00 WIB</option>
+                        <option value="11:00">11.00 WIB</option>
+                        <option value="12:00">12.00 WIB</option>
+                      </select>-->
+                    </div>
+                  </div>
+                  <div>
+                    <div class="form-group">
+                      <label class="form-label">Jumlah Penumpang Opsional</label>
+                      <input type="text" name="total-passenger" class="form-control" placeholder="Jumlah Penumpang" id="total-passenger">
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-end">
+                    <button class="btn bg--lime-green-04 font-white" id="btn-search-car" disabled>Cari Mobil</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="content-car" class="section-content-car">
+        <div class="container">
+          <div class="row mt-5" id="cars-container">
+            <!--<div class="col-4">
+              <div class="card filter-car-content">
+                <img
+                  src="./images/car-filter.svg"
+                  class="card-img-top"
+                  alt="filter-car"
+                />
+                <div class="card-body">
+                  <h6 class="card-text">Nama/Tipe Mobil</h6>
+                  <h5 class="card-title">Rp 430.000 / hari</h5>
+                  <p class="card-text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua.
+                  </p>
+                  <p class="card-text"><span class="fa-solid fa-users"></span> 4 Orang</p>
+                  <p class="card-text"><span class="fa-solid fa-gear"></span> Manual</p>
+                  <p class="card-text"><span class="fa-regular fa-calendar"></span> Tahun 2020</p>
+                  <div class="button d-flex align-items-end">
+                    <button class="btn filter-car-btn bg--lime-green-04">
+                      Pilih Mobil
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>-->
+          </div>
+      </section>
+    </main>
+    <footer id="footer" class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3">
+            <p class="mb-4">
+              Jalan Suroyo No. 161 Mayangan Kota Probolonggo 672000
+            </p>
+            <p class="mb-4">binarcarrental@gmail.com</p>
+            <p class="mb-4">081-233-334-808</p>
+          </div>
+          <div class="col-lg-3">
+            <div class="d-flex flex-column gap-3 ms-lg-5">
+              <a href="#services" class="footer__link">Our Services</a>
+              <a href="#why-us" class="footer__link">Why Us</a>
+              <a href="#testimonial" class="footer__link">Testimonial</a>
+              <a href="#faq" class="footer__link">FAQ</a>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <p class="mb-4">Connect with us</p>
+            <div class="d-flex align-items-center gap-3">
+              <a href="#" class="footer__social-icon bg--dark-blue-04"
+                ><span class="fab fa-facebook text-white"></span
+              ></a>
+              <a href="#" class="footer__social-icon bg--dark-blue-04"
+                ><span class="fab fa-instagram text-white"></span
+              ></a>
+              <a href="#" class="footer__social-icon bg--dark-blue-04"
+                ><span class="fab fa-twitter text-white"></span
+              ></a>
+              <a href="#" class="footer__social-icon bg--dark-blue-04"
+                ><span class="fas fa-envelope text-white"></span
+              ></a>
+              <a href="#" class="footer__social-icon bg--dark-blue-04"
+                ><span class="fab fa-twitch text-white"></span
+              ></a>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <p class="mb-4">Copyright Binar 2022</p>
+            <div class="footer__logo bg--dark-blue-04"></div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!--JQUERY 3.7.1-->
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script>
+    <!--FONT AWESOME 6.5.1-->
+    <script
+      src="https://kit.fontawesome.com/397a83c5a0.js"
+      crossorigin="anonymous"
+    ></script>
+    <!--BOOTSTRAP 5.3-->
+    <script src="./js/bootstrap.bundle.min.js"></script>
+    <!-- Example Javascript -->
+    <script type="text/javascript" src="./scripts/binar.js"></script>
+    <script type="text/javascript" src="./scripts/app.example.js"></script>
+    <script type="text/javascript" src="./scripts/car.example.js"></script>
+    <script type="text/javascript" src="./scripts/main.example.js"></script>
+  </body>
+</html>
