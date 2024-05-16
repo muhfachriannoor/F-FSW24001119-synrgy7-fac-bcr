@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "ts-node index.ts",
     "dev": "ts-node-dev --respawn --transpile-only index.ts",
     "typeCompile": "npx tsc",
     "typeCompileWatch": "npx tsc --watch"
