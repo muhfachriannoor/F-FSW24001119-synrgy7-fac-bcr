@@ -170,3 +170,7 @@
     "message": "Success Delete Cars"
   }
   ```
+
+### Entity Relationship Diagram (ERD)
+
+![](./ERD-Challenge-5-SYNRGY.png)
