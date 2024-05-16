@@ -1,8 +1,6 @@
-# SYNRGY 7 Challenge 5 RESTful API
+## SYNRGY 7 Challenge 5 RESTful API FSW 4 Muhammad Fachrian Noor
 
-# FSW 4 Muhammad Fachrian Noor
-
-## Instruksi
+### Instruksi
 
 1. Clone atau Download ke lokal
 2. Masuk ke direktori yang sudah di Clone/Download `cd your-name-directory`
@@ -13,7 +11,7 @@
 7. Untuk langkah terakir jalankan perintah `npm run start` untuk menjalankan program
 8. (optional) jalankan perintah `npm run dev` untuk menjalankan program development
 
-## List Endpoints
+### List Endpoints
 
 | API Endpoint    | Method | Deksripsi                        |
 | --------------- | ------ | -------------------------------- |
@@ -23,7 +21,7 @@
 | `/api/cars/:id` | PUT    | Mengubah data mobil sesuai ID    |
 | `/api/cars/:id` | DELETE | Menghapus data mobil sesuai ID   |
 
-## Contoh Data
+### Contoh Data
 
 - **Menampilkan seluruh data mobil**
 
@@ -168,6 +166,7 @@
   - **Request**
     - Endpoint : `/api/cars/4`
     - Method : `DELETE`
+  
   - **Response**
 
   ```json
