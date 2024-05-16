@@ -13,8 +13,11 @@
 - **Menampilkan seluruh data mobil**
 
   - **Request**
+
     Endpoint : `/api/cars`
+
     Method : `GET`
+
   - **Response**
 
   ```json
@@ -63,14 +66,19 @@
   ```
 
 - **Menampilkan data mobil sesuai ID**
+
   - **Request**
+
     Endpoint : `/api/cars/1`
+
     Method : `GET`
+
   - **Response**
+
   ```json
   {
     "status": true,
-    "message": "Success Get All Cars",
+    "message": "Success Get Cars By Id",
     "total": 3,
     "data": {
       "cars": [
@@ -87,5 +95,78 @@
         }
       ]
     }
+  }
+  ```
+
+- **Menambahkan data mobil baru**
+
+  - **Request**
+
+    Endpoint : `/api/cars`
+
+    Method : `POST`
+
+    Body :
+
+    | Key         | Value                    |
+    | ----------- | ------------------------ |
+    | name        | Mobil 4                  |
+    | price       | 300                      |
+    | size        | Large                    |
+    | image       | file: mobil4.png         |
+    | start_rent  | 2024-05-16T12:22:09.482Z |
+    | finish_rent | 2024-05-17T12:22:09.482Z |
+
+  - **Response**
+
+  ```json
+  {
+    "status": true,
+    "message": "Success Add Cars"
+  }
+  ```
+
+- **Mengubah data mobil sesuai ID**
+
+  - **Request**
+
+    Endpoint : `/api/cars/4`
+
+    Method : `PUT`
+
+    Body :
+
+    | Key         | Value                    |
+    | ----------- | ------------------------ |
+    | name        | Ubah Mobil 4             |
+    | price       | 400                      |
+    | size        | Small                    |
+    | image       | file: mobil4New.png      |
+    | start_rent  | 2024-05-18T12:22:09.482Z |
+    | finish_rent | 2024-05-19T12:22:09.482Z |
+
+  - **Response**
+
+  ```json
+  {
+    "status": true,
+    "message": "Success Update Cars"
+  }
+  ```
+
+- **Menghapus data mobil sesuai ID**
+
+  - **Request**
+
+    Endpoint : `/api/cars/4`
+
+    Method : `DELETE`
+
+  - **Response**
+
+  ```json
+  {
+    "status": true,
+    "message": "Success Delete Cars"
   }
   ```
