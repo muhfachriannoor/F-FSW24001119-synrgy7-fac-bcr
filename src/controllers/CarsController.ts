@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Model } from "objection";
 import { CarsModel } from "../models/CarsModel";
 import { CreateCars, UpdateCars } from "../interfaces/CarsInterface";
+import { CarsValidation } from "../validation/CarsValidation";
 import { CarsService } from "../services/CarsService";
 import knexInstance from "../config/knexInstance";
 
@@ -9,21 +10,23 @@ Model.knex(knexInstance);
 
 export class CarsController {
   public carsService: CarsService;
+  public carsValidation: CarsValidation;
 
   constructor() {
     this.carsService = new CarsService();
+    this.carsValidation = new CarsValidation();
   }
 
   public async getAll(req: Request, res: Response): Promise<void> {
     try {
-      const getCars: CarsModel[] = await this.carsService.getAll();
+      const getAllCars: CarsModel[] = await this.carsService.getAll();
 
       res.status(200).json({
         status: true,
         message: "Success Get All Cars",
-        total: getCars.length,
+        total: getAllCars.length,
         data: {
-          cars: getCars,
+          cars: getAllCars,
         },
       });
     } catch (error) {
@@ -36,16 +39,16 @@ export class CarsController {
 
   public async getById(req: Request, res: Response): Promise<void> {
     try {
-      const getCars: CarsModel | undefined = await this.carsService.getById(
+      const getCarsId: CarsModel | undefined = await this.carsService.getById(
         Number(req.params.id)
       );
 
-      if (getCars) {
+      if (getCarsId) {
         res.status(200).json({
           status: true,
           message: "Success Get Cars By Id",
           data: {
-            cars: getCars,
+            cars: getCarsId,
           },
         });
       } else {
@@ -70,7 +73,7 @@ export class CarsController {
 
       const reqData: CreateCars = {
         name: req.body.name,
-        price: req.body.price,
+        price: Number(req.body.price),
         size: req.body.size,
         image: req.file,
         start_rent: req.body.start_rent,
@@ -78,13 +81,7 @@ export class CarsController {
         created_at: new Date(),
       };
 
-      if (!reqData) {
-        res.status(400).json({
-          status: false,
-          message: "Error Validation",
-        });
-      }
-
+      await this.carsValidation.CreateCarsValidation(reqData);
       await this.carsService.addCars(reqData, file);
 
       res.status(201).json({
@@ -115,13 +112,7 @@ export class CarsController {
         updated_at: new Date(),
       };
 
-      if (!reqData) {
-        res.status(400).json({
-          status: false,
-          message: "Error Validation",
-        });
-      }
-
+      await this.carsValidation.UpdateCarsValidation(reqData);
       await this.carsService.editCars(Number(req.params.id), reqData, file);
 
       res.status(201).json({
