@@ -13,6 +13,7 @@
 
 ### Open Api Docs
 Endpoint `/api/docs/` untuk melihat dokumentasi api dengan Swagger UI
+![](./DOCS-API-SwaggerUI.png)
 
 ### Entity Relationship Diagram (ERD)
 ![](./ERD-Challenge-6-SYNRGY.png)
