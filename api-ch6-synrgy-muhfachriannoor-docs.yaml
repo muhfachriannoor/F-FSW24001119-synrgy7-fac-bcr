@@ -1,0 +1,2386 @@
+openapi: 3.0.0
+info:
+  title: Challenge 6 SYNRGY RESTFul API BCR SYNRGY
+  description: build from Muhammad Fachrian Noor FSW-4 SYNRGY Batch 7
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+  - url: http://localhost:8000
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    noauthAuth:
+      type: http
+      scheme: noauth
+tags:
+  - name: Auth Login Register
+  - name: CRUD Users
+  - name: CRUD Cars
+paths:
+  /api/login:
+    post:
+      tags:
+        - Auth Login Register
+      summary: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: superadmin@mail.com
+                password: superadmin
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '602'
+            ETag:
+              schema:
+                type: string
+                example: W/"25a-UF9t+C7+to8rKEN3o2XcUjETv7A"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 11:52:21 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Success Login
+                data:
+                  users:
+                    name: superadmin
+                    email: superadmin@mail.com
+                    role: SUPERADMIN
+                    token: >-
+                      eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoic3VwZXJhZG1pbiIsImVtYWlsIjoic3VwZXJhZG1pbkBtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDM2SmxqaUxXbllnYmRsR1YyWldhVGVnbmRwYWZpcnI5UkVubGt5SFpWSkNpc3ZqSlE2MjhHIiwicm9sZSI6IlNVUEVSQURNSU4iLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0zMFQyMTo0OTo0Ni4zNTJaIiwidXBkYXRlZF9hdCI6bnVsbCwiZGVsZXRlZF9hdCI6bnVsbH0sImlhdCI6MTcxNzE1NjM0MSwiZXhwIjoxNzE3MjQyNzQxfQ.tmgyT99HfAJoBg9aWaL3wtpLg-Z9C7SN0hpx3zScuxo
+                    expiresIn: 24h
+        '401':
+          description: Unauthorized
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '53'
+            ETag:
+              schema:
+                type: string
+                example: W/"35-735D2/gFZK+VEhEvNvpYJMqUHKU"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 11:54:07 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Wrong password
+                data: {}
+        '403':
+          description: Forbidden
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '129'
+            ETag:
+              schema:
+                type: string
+                example: W/"81-VNHCUiI3uwI1OUZuesunhIkCgtc"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 12:29:28 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Required field
+                  value:
+                    status: false
+                    message: Validation Error
+                    data:
+                      validations:
+                        - email is a required field
+                        - password is a required field
+                example-1:
+                  summary: Account is inactive
+                  value:
+                    status: false
+                    message: Your account is inactive
+                    data: {}
+        '404':
+          description: Not Found
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '54'
+            ETag:
+              schema:
+                type: string
+                example: W/"36-q7wou7/vM+Gg3yrRXCYgAHlUJ7Y"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 11:56:56 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Email not found
+                data: {}
+  /api/register:
+    post:
+      tags:
+        - Auth Login Register
+      summary: Register Member
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: member1
+                email:
+                  type: string
+                  example: member1@mail.com
+                password:
+                  type: string
+                  example: member1
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '44'
+            ETag:
+              schema:
+                type: string
+                example: W/"2c-tr6yIGX/DttuWGGRFJSSAWuJ5IY"
+            Date:
+              schema:
+                type: string
+                example: Thu, 30 May 2024 21:42:06 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Success Register
+        '403':
+          description: Forbidden
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '156'
+            ETag:
+              schema:
+                type: string
+                example: W/"9c-yrixRefFLXJmQp6oqC5zuwqzRhk"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 12:30:29 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Validation Error
+                data:
+                  validations:
+                    - name is a required field
+                    - email is a required field
+                    - password is a required field
+  /api/current-user:
+    get:
+      tags:
+        - Auth Login Register
+      summary: Get Current User
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '141'
+            ETag:
+              schema:
+                type: string
+                example: W/"8d-M/7AUDWDCT36nqnV4FPmLUlzt0c"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 12:05:59 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Success Get Current User
+                data:
+                  users:
+                    name: superadmin
+                    email: superadmin@mail.com
+                    role: SUPERADMIN
+        '401':
+          description: Unauthorized
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '26'
+            ETag:
+              schema:
+                type: string
+                example: W/"1a-pljHtlo127JYJR4E/RYOPb6ucbw"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 12:06:22 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: Unauthorized
+  /api/users/:
+    get:
+      tags:
+        - CRUD Users
+      summary: Get All Users - SuperAdmin
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '1206'
+            ETag:
+              schema:
+                type: string
+                example: W/"4b6-fZ8wUpUwQsoEAGXmWE3ahCu3f7Y"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:35:15 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Success Get All Users
+                total: 5
+                data:
+                  users:
+                    - id: 1
+                      name: superadmin
+                      email: superadmin@mail.com
+                      password: >-
+                        $2b$10$lqOC5fzAQILgMiV8vpNasekbDNHhqCnD.JRctCsmM2pFshC6y4C9.
+                      role: SUPERADMIN
+                      created_at: '2024-05-31T16:34:04.239Z'
+                      updated_at: null
+                      deleted_at: null
+                    - id: 2
+                      name: admin
+                      email: admin@mail.com
+                      password: >-
+                        $2b$10$WikPfWPMF.30mT3kyWqwy.6Vu4IdK/yOAZDch8.ItEKt/8FOXedQC
+                      role: ADMIN
+                      created_at: '2024-05-31T16:34:04.294Z'
+                      updated_at: null
+                      deleted_at: null
+                    - id: 3
+                      name: member
+                      email: member@mail.com
+                      password: >-
+                        $2b$10$3dkM5VJoXK534XqdkcsbJuuLxioeeZpD7zVG/sJiv.qO8DCm9y1sG
+                      role: MEMBER
+                      created_at: '2024-05-31T16:34:04.349Z'
+                      updated_at: null
+                      deleted_at: null
+                    - id: 4
+                      name: member inactive
+                      email: member1@mail.com
+                      password: >-
+                        $2b$10$pIAl2sQ9l/z4ZSqJtnZDC.YisIcsfRSW1cqE0ADOzAsc23fQOqLim
+                      role: MEMBER
+                      created_at: '2024-05-31T16:34:04.403Z'
+                      updated_at: null
+                      deleted_at: '2024-05-31T16:34:04.403Z'
+                    - id: 5
+                      name: member2
+                      email: member2@mail.com
+                      password: >-
+                        $2b$10$T8A2KcrDf40IV8PoLHsUl.WaV39Pd796C9kkzR2IgfaU1JFTQ9PCG
+                      role: MEMBER
+                      created_at: '2024-05-31T16:34:50.825Z'
+                      updated_at: null
+                      deleted_at: null
+        '401':
+          description: Unauthorized
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '26'
+            ETag:
+              schema:
+                type: string
+                example: W/"1a-pljHtlo127JYJR4E/RYOPb6ucbw"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 12:09:08 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Unauthorized
+                  value:
+                    message: Unauthorized
+                example-1:
+                  summary: Cannot access this feature
+                  value:
+                    message: You cannot access this feature!
+  /api/users/{id}:
+    get:
+      tags:
+        - CRUD Users
+      summary: Get Users By Id - SuperAdmin
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: Users Id
+          example: '1'
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '297'
+            ETag:
+              schema:
+                type: string
+                example: W/"129-gWPoZqqcD/pNtJ5J5anYiow8L/0"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:36:03 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Success Get Users By Id
+                data:
+                  users:
+                    id: 1
+                    name: superadmin
+                    email: superadmin@mail.com
+                    password: >-
+                      $2b$10$lqOC5fzAQILgMiV8vpNasekbDNHhqCnD.JRctCsmM2pFshC6y4C9.
+                    role: SUPERADMIN
+                    created_at: '2024-05-31T16:34:04.239Z'
+                    updated_at: null
+                    deleted_at: null
+        '401':
+          description: Unauthorized
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '26'
+            ETag:
+              schema:
+                type: string
+                example: W/"1a-pljHtlo127JYJR4E/RYOPb6ucbw"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:01:06 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Unauthorized
+                  value:
+                    message: Unauthorized
+                example-1:
+                  summary: Cannot access this feature
+                  value:
+                    message: You cannot access this feature!
+        '404':
+          description: Not Found
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '53'
+            ETag:
+              schema:
+                type: string
+                example: W/"35-LKNFUH8XzYbdETOwaUhwxt3G2pQ"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:00:44 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Data not found
+                data: {}
+    put:
+      tags:
+        - CRUD Users
+      summary: Update Users - SuperAdmin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: admin2 updated
+                email: admin22@mail.com
+                password: admin22
+                role: admin
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: Users Id
+          example: '6'
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '48'
+            ETag:
+              schema:
+                type: string
+                example: W/"30-oXYR5Qln13Q7c/Jl6fcEtshZZkA"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:02:52 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Success Update Users
+        '401':
+          description: Unauthorized
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '26'
+            ETag:
+              schema:
+                type: string
+                example: W/"1a-pljHtlo127JYJR4E/RYOPb6ucbw"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:04:16 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Unauthorized
+                  value:
+                    message: Unauthorized
+                example-1:
+                  summary: Cannot access this feature
+                  value:
+                    message: You cannot access this feature!
+        '403':
+          description: Forbidden
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '156'
+            ETag:
+              schema:
+                type: string
+                example: W/"9c-yrixRefFLXJmQp6oqC5zuwqzRhk"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:03:55 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Validation Error
+                data:
+                  validations:
+                    - name is a required field
+                    - email is a required field
+                    - password is a required field
+        '404':
+          description: Not Found
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '53'
+            ETag:
+              schema:
+                type: string
+                example: W/"35-LKNFUH8XzYbdETOwaUhwxt3G2pQ"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:03:23 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Data not found
+                data: {}
+    delete:
+      tags:
+        - CRUD Users
+      summary: Delete Users - SuperAdmin
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: Users Id
+          example: '6'
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '48'
+            ETag:
+              schema:
+                type: string
+                example: W/"30-rLAniM1jT6sa+We5ikT7Ic1XcOc"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:06:51 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Success Delete Users
+        '401':
+          description: Unauthorized
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '26'
+            ETag:
+              schema:
+                type: string
+                example: W/"1a-pljHtlo127JYJR4E/RYOPb6ucbw"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:07:24 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Unauthorized
+                  value:
+                    message: Unauthorized
+                example-1:
+                  summary: Cannot access this feature
+                  value:
+                    message: You cannot access this feature!
+        '404':
+          description: Not Found
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '53'
+            ETag:
+              schema:
+                type: string
+                example: W/"35-LKNFUH8XzYbdETOwaUhwxt3G2pQ"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:07:07 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Data not found
+                data: {}
+  /api/users:
+    post:
+      tags:
+        - CRUD Users
+      summary: Insert Users - SuperAdmin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: admin2
+                email: admin2@mail.com
+                password: admin2
+                role: admin
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '45'
+            ETag:
+              schema:
+                type: string
+                example: W/"2d-W6JBxkFx6OEiwPjnJVuP82F3d68"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 12:52:19 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Success Add Users
+        '401':
+          description: Unauthorized
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '26'
+            ETag:
+              schema:
+                type: string
+                example: W/"1a-pljHtlo127JYJR4E/RYOPb6ucbw"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 12:37:54 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Unauthorized
+                  value:
+                    message: Unauthorized
+                example-1:
+                  summary: Cannot access this feature
+                  value:
+                    message: You cannot access this feature!
+        '403':
+          description: Forbidden
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '156'
+            ETag:
+              schema:
+                type: string
+                example: W/"9c-yrixRefFLXJmQp6oqC5zuwqzRhk"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 12:54:32 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Validation Error
+                data:
+                  validations:
+                    - name is a required field
+                    - email is a required field
+                    - password is a required field
+  /api/cars/:
+    get:
+      tags:
+        - CRUD Cars
+      summary: Get All Cars - SuperAdmin & Admin
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '1082'
+            ETag:
+              schema:
+                type: string
+                example: W/"43a-F/HJ9qC83BwTBe/YWM4V7qUwRrk"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:38:20 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Success Get All Cars
+                total: 3
+                data:
+                  cars:
+                    - id: 3
+                      name: Mobil 3
+                      price: 900
+                      size: Large
+                      image: >-
+                        https://res.cloudinary.com/dpavtrweo/image/upload/v1715801963/challenge5/ifpfouew8d4wlv8zm3in.jpg
+                      start_rent: '2024-05-31T16:34:04.180Z'
+                      finish_rent: '2024-05-31T16:34:04.180Z'
+                      available: true
+                      created_at: '2024-05-31T16:34:04.180Z'
+                      updated_at: null
+                      deleted_at: null
+                    - id: 2
+                      name: Mobil 2
+                      price: 500
+                      size: Medium
+                      image: >-
+                        https://res.cloudinary.com/dpavtrweo/image/upload/v1715801963/challenge5/wjkgvj4akcrenh1mmwec.jpg
+                      start_rent: '2024-05-31T16:34:04.180Z'
+                      finish_rent: '2024-05-31T16:34:04.180Z'
+                      available: true
+                      created_at: '2024-05-31T16:34:04.180Z'
+                      updated_at: null
+                      deleted_at: null
+                    - id: 1
+                      name: Mobil 1
+                      price: 100
+                      size: Small
+                      image: >-
+                        https://res.cloudinary.com/dpavtrweo/image/upload/v1715801964/challenge5/hoqqtv26r8qgv46jexlm.jpg
+                      start_rent: '2024-05-31T16:34:04.180Z'
+                      finish_rent: '2024-05-31T16:34:04.180Z'
+                      available: true
+                      created_at: '2024-05-31T16:34:04.180Z'
+                      updated_at: null
+                      deleted_at: null
+        '401':
+          description: Unauthorized
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '45'
+            ETag:
+              schema:
+                type: string
+                example: W/"2d-nNueFybNjr2d/QRJSlsxRNsP6hk"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 13:59:58 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Cannot access this feature
+                  value:
+                    message: You cannot access this feature!
+                example-1:
+                  summary: Unauthorized
+                  value:
+                    message: Unauthorized
+  /api/cars/{id}:
+    get:
+      tags:
+        - CRUD Cars
+      summary: Get Car By Id - SuperAdmin & Admin
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: Cars Id
+          example: '1'
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '403'
+            ETag:
+              schema:
+                type: string
+                example: W/"193-PDW0ZsLZOQAMpgYj29zpPu/60xY"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:39:54 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Success Get Cars By Id
+                data:
+                  cars:
+                    - id: 1
+                      name: Mobil 1
+                      price: 100
+                      size: Small
+                      image: >-
+                        https://res.cloudinary.com/dpavtrweo/image/upload/v1715801964/challenge5/hoqqtv26r8qgv46jexlm.jpg
+                      start_rent: '2024-05-31T16:34:04.180Z'
+                      finish_rent: '2024-05-31T16:34:04.180Z'
+                      available: true
+                      created_at: '2024-05-31T16:34:04.180Z'
+                      updated_at: null
+                      deleted_at: null
+        '401':
+          description: Unauthorized
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '26'
+            ETag:
+              schema:
+                type: string
+                example: W/"1a-pljHtlo127JYJR4E/RYOPb6ucbw"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:09:44 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Unauthorized
+                  value:
+                    message: Unauthorized
+                example-1:
+                  summary: Cannot access this feature
+                  value:
+                    message: You cannot access this feature!
+        '404':
+          description: Not Found
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '53'
+            ETag:
+              schema:
+                type: string
+                example: W/"35-LKNFUH8XzYbdETOwaUhwxt3G2pQ"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:09:33 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Data not found
+                data: {}
+    put:
+      tags:
+        - CRUD Cars
+      summary: Update Cars - SuperAdmin & Admin
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Ubah Mobil 4
+                price:
+                  type: integer
+                  example: '5000'
+                size:
+                  type: string
+                  example: Medium
+                image:
+                  type: string
+                  format: binary
+                start_rent:
+                  type: string
+                  example: '2024-05-17T12:22:09.482Z'
+                finish_rent:
+                  type: string
+                  example: '2024-05-18T12:22:09.482Z'
+                available:
+                  type: boolean
+                  example: 'false'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: Cars Id
+          example: '4'
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '47'
+            ETag:
+              schema:
+                type: string
+                example: W/"2f-2ALgRu3LB07oZqvXvzlJAc7f+ME"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:11:08 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Success Update Cars
+        '401':
+          description: Unauthorized
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '26'
+            ETag:
+              schema:
+                type: string
+                example: W/"1a-pljHtlo127JYJR4E/RYOPb6ucbw"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:16:09 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Unauthorized
+                  value:
+                    message: Unauthorized
+                example-1:
+                  summary: Cannot access this feature
+                  value:
+                    message: You cannot access this feature!
+        '403':
+          description: Forbidden
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '459'
+            ETag:
+              schema:
+                type: string
+                example: W/"1cb-EQ1TvwIz0VQK8JJiVnJc7/BRaCE"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:15:06 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Validation Error
+                data:
+                  validations:
+                    - name is a required field
+                    - >-
+                      price must be a `number` type, but the final value was:
+                      `NaN` (cast from the value `""`).
+                    - size is a required field
+                    - image is a required field
+                    - >-
+                      start_rent must be a `date` type, but the final value was:
+                      `Invalid Date` (cast from the value `""`).
+                    - >-
+                      finish_rent must be a `date` type, but the final value
+                      was: `Invalid Date` (cast from the value `""`).
+        '404':
+          description: Not Found
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '53'
+            ETag:
+              schema:
+                type: string
+                example: W/"35-LKNFUH8XzYbdETOwaUhwxt3G2pQ"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:11:27 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Data not found
+                data: {}
+    delete:
+      tags:
+        - CRUD Cars
+      summary: Delete Cars - SuperAdmin & Admin
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: Cars Id
+          example: '4'
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '46'
+            ETag:
+              schema:
+                type: string
+                example: W/"2e-0ZKi84ktQN5FMIv3zqM0AEdK5O0"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:22:08 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Success Delete Car
+        '401':
+          description: Unauthorized
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '26'
+            ETag:
+              schema:
+                type: string
+                example: W/"1a-pljHtlo127JYJR4E/RYOPb6ucbw"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:23:09 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Unauthorized
+                  value:
+                    message: Unauthorized
+                example-1:
+                  summary: Cannot access this feature
+                  value:
+                    message: You cannot access this feature!
+        '404':
+          description: Not Found
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '53'
+            ETag:
+              schema:
+                type: string
+                example: W/"35-LKNFUH8XzYbdETOwaUhwxt3G2pQ"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:22:34 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Data not found
+                data: {}
+  /api/cars:
+    post:
+      tags:
+        - CRUD Cars
+      summary: Insert Cars - SuperAdmin & Admin
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Mobil 4
+                price:
+                  type: integer
+                  example: '4000'
+                size:
+                  type: string
+                  example: Small
+                image:
+                  type: string
+                  format: binary
+                start_rent:
+                  type: string
+                  example: '2024-05-15T12:22:09.482Z'
+                finish_rent:
+                  type: string
+                  example: '2024-05-16T12:22:09.482Z'
+                available:
+                  type: boolean
+                  example: 'true'
+      security:
+        - bearerAuth: []
+      responses:
+        '201':
+          description: Created
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '44'
+            ETag:
+              schema:
+                type: string
+                example: W/"2c-bWKwgr6WRYQakm9cQcsa0gfssq0"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 15:19:53 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Success Add Cars
+        '401':
+          description: Unauthorized
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '26'
+            ETag:
+              schema:
+                type: string
+                example: W/"1a-pljHtlo127JYJR4E/RYOPb6ucbw"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 15:19:01 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Unauthorized
+                  value:
+                    message: Unauthorized
+                example-1:
+                  summary: Cannot access this feature
+                  value:
+                    message: You cannot access this feature!
+        '403':
+          description: Forbidden
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '399'
+            ETag:
+              schema:
+                type: string
+                example: W/"18f-4RlgxThl3YeixDxyAb31W2TnzAk"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 15:17:05 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Validation Error
+                data:
+                  validations:
+                    - name is a required field
+                    - price must be a positive number
+                    - size is a required field
+                    - image is a required field
+                    - >-
+                      start_rent must be a `date` type, but the final value was:
+                      `Invalid Date` (cast from the value `""`).
+                    - >-
+                      finish_rent must be a `date` type, but the final value
+                      was: `Invalid Date` (cast from the value `""`).
+  /api/cars/list-available:
+    get:
+      tags:
+        - CRUD Cars
+      summary: Get All Cars Available
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '984'
+            ETag:
+              schema:
+                type: string
+                example: W/"3d8-Tt9ju3Wgb9osPESC3E59NIlAbIo"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:42:00 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Success Get All Cars Available
+                total: 3
+                data:
+                  cars:
+                    - id: 3
+                      name: Mobil 3
+                      price: 900
+                      size: Large
+                      image: >-
+                        https://res.cloudinary.com/dpavtrweo/image/upload/v1715801963/challenge5/ifpfouew8d4wlv8zm3in.jpg
+                      start_rent: '2024-05-31T16:34:04.180Z'
+                      finish_rent: '2024-05-31T16:34:04.180Z'
+                      available: true
+                      created_at: '2024-05-31T16:34:04.180Z'
+                    - id: 2
+                      name: Mobil 2
+                      price: 500
+                      size: Medium
+                      image: >-
+                        https://res.cloudinary.com/dpavtrweo/image/upload/v1715801963/challenge5/wjkgvj4akcrenh1mmwec.jpg
+                      start_rent: '2024-05-31T16:34:04.180Z'
+                      finish_rent: '2024-05-31T16:34:04.180Z'
+                      available: true
+                      created_at: '2024-05-31T16:34:04.180Z'
+                    - id: 1
+                      name: Mobil 1
+                      price: 100
+                      size: Small
+                      image: >-
+                        https://res.cloudinary.com/dpavtrweo/image/upload/v1715801964/challenge5/hoqqtv26r8qgv46jexlm.jpg
+                      start_rent: '2024-05-31T16:34:04.180Z'
+                      finish_rent: '2024-05-31T16:34:04.180Z'
+                      available: true
+                      created_at: '2024-05-31T16:34:04.180Z'
+  /api/cars/logs:
+    get:
+      tags:
+        - CRUD Cars
+      summary: Get All Cars Logs - SuperAdmin & Admin
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '2356'
+            ETag:
+              schema:
+                type: string
+                example: W/"934-EfN61uKjE3ehA2GLO5G5gXRK0No"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:42:25 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Success Get All Cars Logs
+                total: 4
+                data:
+                  cars:
+                    - id: 4
+                      name: Ubah Mobil 4
+                      price: 5000
+                      size: Medium
+                      image: >-
+                        https://res.cloudinary.com/dpavtrweo/image/upload/v1717173688/web_bcr_cars/x5xqtghg0p2ysunbchpo.png
+                      start_rent: '2024-05-17T12:22:09.482Z'
+                      finish_rent: '2024-05-18T12:22:09.482Z'
+                      available: false
+                      created_at: '2024-05-31T16:40:36.081Z'
+                      updated_at: '2024-05-31T16:41:27.044Z'
+                      deleted_at: '2024-05-31T16:41:52.735Z'
+                      carsLogs:
+                        - action: DELETE
+                          time_log: '2024-05-31T16:41:52.734Z'
+                          users:
+                            name: superadmin
+                            email: superadmin@mail.com
+                            role: SUPERADMIN
+                        - action: UPDATE
+                          time_log: '2024-05-31T16:41:27.044Z'
+                          users:
+                            name: superadmin
+                            email: superadmin@mail.com
+                            role: SUPERADMIN
+                        - action: INSERT
+                          time_log: '2024-05-31T16:40:36.081Z'
+                          users:
+                            name: superadmin
+                            email: superadmin@mail.com
+                            role: SUPERADMIN
+                    - id: 3
+                      name: Mobil 3
+                      price: 900
+                      size: Large
+                      image: >-
+                        https://res.cloudinary.com/dpavtrweo/image/upload/v1715801963/challenge5/ifpfouew8d4wlv8zm3in.jpg
+                      start_rent: '2024-05-31T16:34:04.180Z'
+                      finish_rent: '2024-05-31T16:34:04.180Z'
+                      available: true
+                      created_at: '2024-05-31T16:34:04.180Z'
+                      updated_at: null
+                      deleted_at: null
+                      carsLogs:
+                        - action: INSERT
+                          time_log: '2024-05-31T16:34:04.407Z'
+                          users:
+                            name: superadmin
+                            email: superadmin@mail.com
+                            role: SUPERADMIN
+                    - id: 2
+                      name: Mobil 2
+                      price: 500
+                      size: Medium
+                      image: >-
+                        https://res.cloudinary.com/dpavtrweo/image/upload/v1715801963/challenge5/wjkgvj4akcrenh1mmwec.jpg
+                      start_rent: '2024-05-31T16:34:04.180Z'
+                      finish_rent: '2024-05-31T16:34:04.180Z'
+                      available: true
+                      created_at: '2024-05-31T16:34:04.180Z'
+                      updated_at: null
+                      deleted_at: null
+                      carsLogs:
+                        - action: INSERT
+                          time_log: '2024-05-31T16:34:04.407Z'
+                          users:
+                            name: superadmin
+                            email: superadmin@mail.com
+                            role: SUPERADMIN
+                    - id: 1
+                      name: Mobil 1
+                      price: 100
+                      size: Small
+                      image: >-
+                        https://res.cloudinary.com/dpavtrweo/image/upload/v1715801964/challenge5/hoqqtv26r8qgv46jexlm.jpg
+                      start_rent: '2024-05-31T16:34:04.180Z'
+                      finish_rent: '2024-05-31T16:34:04.180Z'
+                      available: true
+                      created_at: '2024-05-31T16:34:04.180Z'
+                      updated_at: null
+                      deleted_at: null
+                      carsLogs:
+                        - action: INSERT
+                          time_log: '2024-05-31T16:34:04.407Z'
+                          users:
+                            name: superadmin
+                            email: superadmin@mail.com
+                            role: SUPERADMIN
+        '401':
+          description: Unauthorized
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '26'
+            ETag:
+              schema:
+                type: string
+                example: W/"1a-pljHtlo127JYJR4E/RYOPb6ucbw"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 15:31:00 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Unauthorized
+                  value:
+                    message: Unauthorized
+                example-1:
+                  summary: Cannot access this feature
+                  value:
+                    message: You cannot access this feature!
+  /api/cars/{idCars}/logs/:
+    get:
+      tags:
+        - CRUD Cars
+      summary: Get Logs By Cars Id - SuperAdmin & Admin
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: idCars
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: Cars Id
+          example: '4'
+      responses:
+        '200':
+          description: OK
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '889'
+            ETag:
+              schema:
+                type: string
+                example: W/"379-nAqshqJ+juMnGJRxhZR/MJzv4+w"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:43:19 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: true
+                message: Success Get Logs By Cars Id
+                data:
+                  cars:
+                    - id: 4
+                      name: Ubah Mobil 4
+                      price: 5000
+                      size: Medium
+                      image: >-
+                        https://res.cloudinary.com/dpavtrweo/image/upload/v1717173688/web_bcr_cars/x5xqtghg0p2ysunbchpo.png
+                      start_rent: '2024-05-17T12:22:09.482Z'
+                      finish_rent: '2024-05-18T12:22:09.482Z'
+                      available: false
+                      created_at: '2024-05-31T16:40:36.081Z'
+                      updated_at: '2024-05-31T16:41:27.044Z'
+                      deleted_at: '2024-05-31T16:41:52.735Z'
+                      carsLogs:
+                        - action: DELETE
+                          time_log: '2024-05-31T16:41:52.734Z'
+                          users:
+                            name: superadmin
+                            email: superadmin@mail.com
+                            role: SUPERADMIN
+                        - action: UPDATE
+                          time_log: '2024-05-31T16:41:27.044Z'
+                          users:
+                            name: superadmin
+                            email: superadmin@mail.com
+                            role: SUPERADMIN
+                        - action: INSERT
+                          time_log: '2024-05-31T16:40:36.081Z'
+                          users:
+                            name: superadmin
+                            email: superadmin@mail.com
+                            role: SUPERADMIN
+        '401':
+          description: Unauthorized
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '26'
+            ETag:
+              schema:
+                type: string
+                example: W/"1a-pljHtlo127JYJR4E/RYOPb6ucbw"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:29:00 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Unauthorized
+                  value:
+                    message: Unauthorized
+                example-1:
+                  summary: Cannot access this feature
+                  value:
+                    message: You cannot access this feature!
+        '404':
+          description: Not Found
+          headers:
+            X-Powered-By:
+              schema:
+                type: string
+                example: Express
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Content-Length:
+              schema:
+                type: integer
+                example: '53'
+            ETag:
+              schema:
+                type: string
+                example: W/"35-LKNFUH8XzYbdETOwaUhwxt3G2pQ"
+            Date:
+              schema:
+                type: string
+                example: Fri, 31 May 2024 16:28:38 GMT
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=5
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: false
+                message: Data not found
+                data: {}
