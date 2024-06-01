@@ -10,9 +10,10 @@
 6. Jalankan perintah `npm run database:seed` untuk mengisi data di tabel dengan data seeder
 7. Untuk langkah terakhir jalankan perintah `npm run devType` untuk menjalankan program development
 
+### Akun Super Admin
+**Email:** `superadmin@mail.com` **Password:** `superadmin`
 
-### Open Api Docs
-Endpoint `/api/docs/` untuk melihat dokumentasi api dengan Swagger UI
+### Endpoint Dokumentasi API `/api/docs`
 ![](./DOCS-API-SwaggerUI.png)
 
 ### Entity Relationship Diagram (ERD)
