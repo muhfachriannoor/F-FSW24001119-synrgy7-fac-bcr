@@ -2,11 +2,7 @@ import { CarsModel } from "@Models/Cars/CarsModel";
 import { CarsRepository } from "@Repositories/Cars/CarsRepository";
 import { CarsLogsRepository } from "@Repositories/Cars/CarsLogsRepository";
 import { cloudinary, UploadApiResponse } from "@Config/cloudinary";
-import {
-  CreateCars,
-  UpdateCars,
-  CreateCarsLogs,
-} from "@Interfaces/Cars/CarsInterface";
+import { CreateCars, UpdateCars, CreateCarsLogs, QueryFilterCars } from "@Interfaces/Cars/CarsInterface";
 
 export class CarsService {
   public carsRepository: CarsRepository;
@@ -21,12 +17,16 @@ export class CarsService {
     return await this.carsRepository.getAll();
   }
 
-  public async getById(id: number): Promise<CarsModel[] | undefined> {
+  public async getById(id: number): Promise<CarsModel[]> {
     return await this.carsRepository.getById(id);
   }
 
   public async getCarsAvailable(): Promise<CarsModel[]> {
-    return await this.carsRepository.getCarsAvailable();
+    return await this.carsRepository.getCarsAvailableAll();
+  }
+
+  public async getFilterCarsAvailable(reqFilter: QueryFilterCars): Promise<CarsModel[]> {
+    return await this.carsRepository.getCarsAvailableFilter(reqFilter);
   }
 
   public async addCars(dataCars: CreateCars, dataAuth: CreateCarsLogs, file: string): Promise<any> {
@@ -74,6 +74,5 @@ export class CarsService {
     } catch (error) {
       throw new Error((error as Error).message);
     }
-
   }
 }

@@ -2,16 +2,25 @@ import { Model, ModelObject } from "objection";
 
 export class CarsModel extends Model {
   id!: number;
-  name!: string;
-  price!: number;
-  size!: string;
+  typeDriver!: string;
+  plate!: string;
+  manufacture!: string;
+  model!: string;
   image!: string;
-  start_rent?: Date;
-  finish_rent?: Date;
-  available!: string;
+  rentPerDay!: number;
+  capacity!: number;
+  description!: string;
+  transmission!: string;
+  available!: Boolean;
+  type!: string;
+  year!: number;
+  availableAt!: Date;
+  options!: string;
+  specs!: string;
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date;
+  message?: string;
 
   static get tableName() {
     return "cars";

@@ -1,11 +1,10 @@
 import { CarsModel } from "@Models/Cars/CarsModel";
-import { CreateCars, UpdateCars, CreateCarsLogs } from "@Interfaces/Cars/CarsInterface";
+import { CreateCars, UpdateCars, CreateCarsLogs, QueryFilterCars } from "@Interfaces/Cars/CarsInterface";
 import { Exception } from "@Exceptions/exception";
 import { CarsService } from "@Services/Cars/CarsService";
 import { CarsLogsService } from "@Services/Cars/CarsLogsService";
 import { CarsValidationData } from "@Validations/Cars/CarsValidation";
 import { Request, Response } from "express";
-
 
 export class CarsController {
   public carsService: CarsService;
@@ -48,7 +47,7 @@ export class CarsController {
 
   public async getById(req: Request, res: Response): Promise<void> {
     try {
-      const getCarsId: CarsModel[] | undefined = await this.carsService.getById(Number(req.params.id));
+      const getCarsId: CarsModel[] = await this.carsService.getById(Number(req.params.id));
       res.status(200).json({
         status: true,
         message: "Success Get Cars By Id",
@@ -74,18 +73,25 @@ export class CarsController {
 
   public async addCars(req: any, res: Response): Promise<void> {
     try {
-      const fileBase64: string | undefined =
-        req.file?.buffer.toString("base64");
+      const fileBase64: string | undefined = req.file?.buffer.toString("base64");
       const file: string = `data:${req.file?.mimetype};base64,${fileBase64}`;
 
       const reqData: CreateCars = {
-        name: req.body.name,
-        price: Number(req.body.price),
-        size: req.body.size,
+        typeDriver: req.body.typeDriver,
+        plate: req.body.plate,
+        manufacture: req.body.manufacture,
+        model: req.body.model,
         image: req.file,
-        start_rent: req.body.start_rent,
-        finish_rent: req.body.finish_rent,
+        rentPerDay: req.body.rentPerDay,
+        capacity: req.body.capacity,
+        description: req.body.description,
+        transmission: req.body.transmission,
         available: req.body.available,
+        type: req.body.type,
+        year: req.body.year,
+        availableAt: req.body.availableAt,
+        options: JSON.stringify(req.body.options),
+        specs: JSON.stringify(req.body.specs),
         created_at: new Date(),
       };
 
@@ -94,9 +100,8 @@ export class CarsController {
         time_log: new Date(),
         action: "INSERT",
       };
-
-      const checkValidation: CreateCars =
-        this.carsValidationData.CreateCarsValidation(reqData);
+      
+      const checkValidation: CreateCars = this.carsValidationData.CreateCarsValidation(reqData);
       await this.carsService.addCars(reqData, reqAuth, file);
 
       res.status(201).json({
@@ -121,18 +126,25 @@ export class CarsController {
 
   public async editCars(req: any, res: Response): Promise<void> {
     try {
-      const fileBase64: string | undefined =
-        req.file?.buffer.toString("base64");
+      const fileBase64: string | undefined = req.file?.buffer.toString("base64");
       const file: string = `data:${req.file?.mimetype};base64,${fileBase64}`;
 
       const reqData: UpdateCars = {
-        name: req.body.name,
-        price: req.body.price,
-        size: req.body.size,
+        typeDriver: req.body.typeDriver,
+        plate: req.body.plate,
+        manufacture: req.body.manufacture,
+        model: req.body.model,
         image: req.file,
-        start_rent: req.body.start_rent,
-        finish_rent: req.body.finish_rent,
+        rentPerDay: req.body.rentPerDay,
+        capacity: req.body.capacity,
+        description: req.body.description,
+        transmission: req.body.transmission,
         available: req.body.available,
+        type: req.body.type,
+        year: req.body.year,
+        availableAt: req.body.availableAt,
+        options: JSON.stringify(req.body.options),
+        specs: JSON.stringify(req.body.specs),
         updated_at: new Date(),
       };
 
@@ -142,8 +154,7 @@ export class CarsController {
         action: "UPDATE",
       };
 
-      const checkDataCars: CarsModel[] | undefined =
-        await this.carsService.getById(Number(req.params.id));
+      const checkDataCars: CarsModel[] = await this.carsService.getById(Number(req.params.id));
       const checkValidation: UpdateCars = this.carsValidationData.UpdateCarsValidation(reqData);
       await this.carsService.editCars(Number(req.params.id), reqData, reqAuth, file);
 
@@ -175,8 +186,7 @@ export class CarsController {
         action: "DELETE",
       };
 
-      const checkDataCars: CarsModel[] | undefined =
-        await this.carsService.getById(Number(req.params.id));
+      const checkDataCars: CarsModel[] = await this.carsService.getById(Number(req.params.id));
       await this.carsService.delete(Number(req.params.id), reqAuth);
 
       res.status(200).json({
@@ -201,8 +211,7 @@ export class CarsController {
 
   public async getCarsLogs(req: Request, res: Response): Promise<void> {
     try {
-      const getAllCarsLogs: CarsModel[] =
-        await this.carsLogsService.getAllCarsLogs();
+      const getAllCarsLogs: CarsModel[] = await this.carsLogsService.getAllCarsLogs();
 
       res.status(200).json({
         status: true,
@@ -230,7 +239,7 @@ export class CarsController {
 
   public async getCarsLogsById(req: Request, res: Response): Promise<void> {
     try {
-      const checkDataCars: CarsModel[] | undefined = await this.carsService.getById(Number(req.params.idCars));
+      const checkDataCars: CarsModel[] = await this.carsService.getById(Number(req.params.idCars));
       const getCarsLogsId: CarsModel[] = await this.carsLogsService.getCarsLogsById(Number(req.params.idCars));
 
       res.status(200).json({
@@ -256,16 +265,32 @@ export class CarsController {
     }
   }
 
-  public async getCarsAvailable(req: Request, res: Response): Promise<void> {
+  public async getCarsAvailable(req: Request<{}, {}, {}, QueryFilterCars>, res: Response): Promise<void> {
     try {
-      const getAllCars: CarsModel[] = await this.carsService.getCarsAvailable();
+      let messageData;
+      let getData;
+      const reqFilter: QueryFilterCars = {
+        typeDriver: req.query.typeDriver,
+        date: req.query.date,
+        pickTime: req.query.pickTime,
+        totalPassenger: req.query.totalPassenger,
+      };
 
+      if(!reqFilter.typeDriver && !reqFilter.date && !reqFilter.pickTime && !reqFilter.totalPassenger) {
+        getData = await this.carsService.getCarsAvailable();
+        messageData = "Success Get All Cars Available";
+      }else{
+        const checkValidation: QueryFilterCars = this.carsValidationData.FilterCarsValidation(reqFilter);
+        getData = await this.carsService.getFilterCarsAvailable(reqFilter);
+        messageData = "Success Get Filter All Cars Available";
+      }
+        
       res.status(200).json({
         status: true,
-        message: "Success Get All Cars Available",
-        total: getAllCars.length,
+        message: messageData,
+        total: getData.length,
         data: {
-          cars: getAllCars,
+          cars: getData,
         },
       });
     } catch (error) {

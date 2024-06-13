@@ -1,35 +1,59 @@
 export interface Cars {
-  name: string;
-  price: number;
-  size: string;
-  image: any;
-  start_rent: Date;
-  finish_rent: Date;
-  available: string;
+  typeDriver: string;
+  plate: string;
+  manufacture: string;
+  model: string;
+  image: string;
+  rentPerDay: number;
+  capacity: number;
+  description: string;
+  transmission: string;
+  available: boolean;
+  type: string;
+  year: number;
+  availableAt: Date;
+  options: string;
+  specs: string;
   created_at: Date;
   updated_at: Date;
   deleted_at: Date;
 }
 
 export interface CreateCars {
-  name: string;
-  price: number;
-  size: string;
-  image: any;
-  start_rent: Date;
-  finish_rent: Date;
-  available: string;
+  typeDriver: string;
+  plate: string;
+  manufacture: string;
+  model: string;
+  image: string;
+  rentPerDay: number;
+  capacity: number;
+  description: string;
+  transmission: string;
+  available: boolean;
+  type: string;
+  year: number;
+  availableAt: Date;
+  options: string;
+  specs: string;
   created_at: Date;
 }
 
 export interface UpdateCars {
-  name: string;
-  price: number;
-  size: string;
-  image: any;
-  start_rent: Date;
-  finish_rent: Date;
-  available: string;
+  typeDriver: string;
+  plate: string;
+  manufacture: string;
+  model: string;
+  image: string;
+  rentPerDay: number;
+  capacity: number;
+  description: string;
+  transmission: string;
+  available: boolean;
+  type: string;
+  year: number;
+  availableAt: Date;
+  options: string;
+  specs: string;
   updated_at: Date;
 }
 
@@ -38,4 +62,11 @@ export interface CreateCarsLogs {
   users_id: number;
   time_log: Date;
   action: string;
+}
+
+export interface QueryFilterCars {
+  typeDriver?: string | undefined;
+  date?: string | undefined;
+  pickTime?: string | undefined;
+  totalPassenger?: number | undefined;
 }

@@ -1,56 +1,99 @@
 import { CarsModel } from "@Models/Cars/CarsModel";
-import { CreateCars, UpdateCars } from "@Interfaces/Cars/CarsInterface";
+import { CreateCars, UpdateCars, QueryFilterCars } from "@Interfaces/Cars/CarsInterface";
 import { Exception } from "@Exceptions/exception";
 
 export class CarsRepository {
   public async getAll(): Promise<CarsModel[]> {
     return await CarsModel.query()
-      .select("id", "name", "price", "size", "image", "start_rent", "finish_rent", "available", "created_at", "updated_at", "deleted_at")
-      .orderBy("id", "desc")
+      .where("deleted_at", null)
+      .orderBy("id", "desc");
   }
 
-  public async getById(id: number): Promise<CarsModel[] | undefined> {
+  public async getById(id: number): Promise<CarsModel[]> {
     const getCars = await CarsModel.query()
-      .select("id", "name", "price", "size", "image", "start_rent", "finish_rent", "available", "created_at", "updated_at", "deleted_at")
-      .where("id", id);
-      
-    if(getCars.length > 0) {
+      .where("deleted_at", null)
+      .where("id", id)
+
+    if (getCars.length > 0) {
       return getCars;
     } else {
       throw new Exception("Data not found", 404, {});
     }
   }
 
-  public async getCarsAvailable(): Promise<CarsModel[]> {
+  public async getCarsAvailableAll(): Promise<CarsModel[]> {
     return await CarsModel.query()
-      .select("id", "name", "price", "size", "image", "start_rent", "finish_rent", "available", "created_at")
       .where("deleted_at", null)
       .where("available", true)
-      .orderBy("id", "desc")
+      .orderBy("id", "desc");
+  }
+
+  public async getCarsAvailableFilter(dataFilter: QueryFilterCars): Promise<CarsModel[]> {
+    let resultFilter;
+    let availableAtFilter = dataFilter.date + "T" + dataFilter.pickTime;
+
+    if (!dataFilter.totalPassenger) {
+      resultFilter = await CarsModel.query()
+        .where("deleted_at", null)
+        .where("available", true)
+        .where("typeDriver", `${dataFilter.typeDriver}`)
+        .where("availableAt", ">=", `${availableAtFilter}`);
+    } else {
+      resultFilter = await CarsModel.query()
+        .where("deleted_at", null)
+        .where("available", true)
+        .where("typeDriver", `${dataFilter.typeDriver}`)
+        .where("availableAt", ">=", `${availableAtFilter}`)
+        .where("capacity", ">=", `${dataFilter.totalPassenger}`);
+    }
+
+    if (resultFilter.length > 0) {
+      return resultFilter;
+    } else {
+      throw new Exception("Data not found", 404, {});
+    }
   }
 
   public async addCars(data: CreateCars): Promise<any> {
-    return await CarsModel.query().insert({
-      name: data.name,
-      price: data.price,
-      size: data.size,
-      image: data.image,
-      start_rent: data.start_rent,
-      finish_rent: data.finish_rent,
-      available: data.available,
-      created_at: data.created_at,
-    }).returning("id");   
+    return await CarsModel.query()
+      .insert({
+        typeDriver: data.typeDriver,
+        plate: data.plate,
+        manufacture: data.manufacture,
+        model: data.model,
+        image: data.image,
+        rentPerDay: data.rentPerDay,
+        capacity: data.capacity,
+        description: data.description,
+        transmission: data.transmission,
+        available: data.available,
+        type: data.type,
+        year: data.year,
+        availableAt: data.availableAt,
+        options: data.options,
+        specs: data.specs,
+        created_at: data.created_at,
+      })
+      .returning("id");
   }
 
-  public async editCars(id: number, data: UpdateCars,): Promise<any> {
+  public async editCars(id: number, data: UpdateCars): Promise<any> {
     return await CarsModel.query().where("id", id).update({
-      name: data.name,
-      price: data.price,
-      size: data.size,
+      typeDriver: data.typeDriver,
+      plate: data.plate,
+      manufacture: data.manufacture,
+      model: data.model,
       image: data.image,
-      start_rent: data.start_rent,
-      finish_rent: data.finish_rent,
+      rentPerDay: data.rentPerDay,
+      capacity: data.capacity,
+      description: data.description,
+      transmission: data.transmission,
       available: data.available,
+      type: data.type,
+      year: data.year,
+      availableAt: data.availableAt,
+      options: data.options,
+      specs: data.specs,
       updated_at: data.updated_at,
     });
   }

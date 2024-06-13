@@ -6,7 +6,6 @@ import { AnyQueryBuilder } from "objection";
 export class CarsLogsRepository {
   public async getAllCarsLogs(): Promise<CarsModel[]> {
     return await CarsModel.query()
-      .select("id", "name", "price", "size", "image", "start_rent", "finish_rent", "available", "created_at", "updated_at", "deleted_at")
       .withGraphFetched("[carsLogs(selectLogs)]")
       .modifiers({
         selectLogs: (builder: AnyQueryBuilder) => {
@@ -25,7 +24,6 @@ export class CarsLogsRepository {
 
   public async getCarsLogsById(idCars: number): Promise<CarsModel[]> {
     return await CarsModel.query()
-      .select("id", "name", "price", "size", "image", "start_rent", "finish_rent", "available", "created_at", "updated_at", "deleted_at")
       .where("id", idCars)
       .withGraphFetched("[carsLogs(selectLogs)]")
       .modifiers({

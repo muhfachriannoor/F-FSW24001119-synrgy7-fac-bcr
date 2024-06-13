@@ -11,16 +11,36 @@
 			"name": "Auth Login Register",
 			"item": [
 				{
-					"name": "Login",
+					"name": "Login - SuperAdmin & Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const dataJson = pm.response.json().data;\r",
+									"\r",
+									"if(dataJson.users.role == \"SUPERADMIN\") {\r",
+									"    pm.environment.set('tokenSuperAdmin', dataJson.users.token);\r",
+									"} else if(dataJson.users.role == \"ADMIN\") {\r",
+									"    pm.environment.set('tokenAdmin', dataJson.users.token);\r",
+									"}else{\r",
+									"    pm.environment.set('tokenMember', dataJson.users.token);\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
-							"type": "bearer"
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"superadmin@mail.com\",\r\n    \"password\": \"superadmin\"\r\n}",
+							"raw": "{\r\n    \"email\": \"{{emailSuperAdmin}}\",\r\n    \"password\": \"{{passwordSuperAdmin}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -28,11 +48,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:5000/api/login",
+							"raw": "{{baseUrl}}/api/login",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
 								"api",
 								"login"
@@ -47,7 +66,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"superadmin@mail.com\",\r\n    \"password\": \"superadmin\"\r\n}",
+									"raw": "{\r\n    \"email\": \"{{emailSuperAdmin}}\",\r\n    \"password\": \"{{passwordSuperAdmin}}\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -55,11 +74,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/login",
+									"raw": "{{baseUrl}}/api/login",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"login"
@@ -84,11 +102,11 @@
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"25a-UF9t+C7+to8rKEN3o2XcUjETv7A\""
+									"value": "W/\"25a-0bbKjy/n44/DjE6LKwaAOae2yKM\""
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 11:52:21 GMT"
+									"value": "Mon, 10 Jun 2024 01:54:20 GMT"
 								},
 								{
 									"key": "Connection",
@@ -100,7 +118,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": true,\n    \"message\": \"Success Login\",\n    \"data\": {\n        \"users\": {\n            \"name\": \"superadmin\",\n            \"email\": \"superadmin@mail.com\",\n            \"role\": \"SUPERADMIN\",\n            \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoic3VwZXJhZG1pbiIsImVtYWlsIjoic3VwZXJhZG1pbkBtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDM2SmxqaUxXbllnYmRsR1YyWldhVGVnbmRwYWZpcnI5UkVubGt5SFpWSkNpc3ZqSlE2MjhHIiwicm9sZSI6IlNVUEVSQURNSU4iLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0zMFQyMTo0OTo0Ni4zNTJaIiwidXBkYXRlZF9hdCI6bnVsbCwiZGVsZXRlZF9hdCI6bnVsbH0sImlhdCI6MTcxNzE1NjM0MSwiZXhwIjoxNzE3MjQyNzQxfQ.tmgyT99HfAJoBg9aWaL3wtpLg-Z9C7SN0hpx3zScuxo\",\n            \"expiresIn\": \"24h\"\n        }\n    }\n}"
+							"body": "{\n    \"status\": true,\n    \"message\": \"Success Login\",\n    \"data\": {\n        \"users\": {\n            \"name\": \"superadmin\",\n            \"email\": \"superadmin@mail.com\",\n            \"role\": \"SUPERADMIN\",\n            \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoic3VwZXJhZG1pbiIsImVtYWlsIjoic3VwZXJhZG1pbkBtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJC85MmlOakVOSmR6NWtoMmlLeG9jQ08ydHhpNkRaVVpNNjUwLnBwU0pKdHVJdVR2UXZSL051Iiwicm9sZSI6IlNVUEVSQURNSU4iLCJjcmVhdGVkX2F0IjoiMjAyNC0wNi0xMFQwMTo1MjozNC4zOTFaIiwidXBkYXRlZF9hdCI6bnVsbCwiZGVsZXRlZF9hdCI6bnVsbH0sImlhdCI6MTcxNzk4NDQ2MCwiZXhwIjoxNzE4MDcwODYwfQ.cLPoWfZKTKxRk9dKjC73mqRLhMEv82l93UEOK9Au9VM\",\n            \"expiresIn\": \"24h\"\n        }\n    }\n}"
 						},
 						{
 							"name": "Required field",
@@ -109,7 +127,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "",
+									"raw": "{\r\n    \r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -117,11 +135,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/login",
+									"raw": "{{baseUrl}}/api/login",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"login"
@@ -150,7 +167,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 12:29:28 GMT"
+									"value": "Mon, 10 Jun 2024 01:54:55 GMT"
 								},
 								{
 									"key": "Connection",
@@ -171,7 +188,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"bcrsynrgy@mail.com\",\r\n    \"password\": \"bcrsynrgy\"\r\n}",
+									"raw": "{\r\n    \"email\": \"superadmin123@gmail.com\",\r\n    \"password\": \"{{passwordSuperAdmin}}\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -179,11 +196,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/login",
+									"raw": "{{baseUrl}}/api/login",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"login"
@@ -212,7 +228,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 11:56:56 GMT"
+									"value": "Mon, 10 Jun 2024 01:55:52 GMT"
 								},
 								{
 									"key": "Connection",
@@ -233,7 +249,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"superadmin@mail.com\",\r\n    \"password\": \"superadmin1\"\r\n}",
+									"raw": "{\r\n    \"email\": \"{{emailSuperAdmin}}\",\r\n    \"password\": \"123\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -241,11 +257,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/login",
+									"raw": "{{baseUrl}}/api/login",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"login"
@@ -274,7 +289,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 11:54:07 GMT"
+									"value": "Mon, 10 Jun 2024 01:56:17 GMT"
 								},
 								{
 									"key": "Connection",
@@ -289,13 +304,13 @@
 							"body": "{\n    \"status\": false,\n    \"message\": \"Wrong password\",\n    \"data\": {}\n}"
 						},
 						{
-							"name": "Account is inactive",
+							"name": "Members cannot log in",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\": \"member1@mail.com\",\r\n    \"password\": \"member1\"\r\n}",
+									"raw": "{\r\n    \"email\": \"{{emailMember}}\",\r\n    \"password\": \"{{passwordMember}}\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -303,11 +318,75 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/login",
+									"raw": "{{baseUrl}}/api/login",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "74"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4a-ey7VKzF2Dfz68t6sZotoJ0IikYA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 13 Jun 2024 09:25:42 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": false,\n    \"message\": \"Members cannot log in on this route\",\n    \"data\": {}\n}"
+						},
+						{
+							"name": "Account is inactive",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{emailMemberInactive}}\",\r\n    \"password\": \"{{passwordMemberInactive}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/login",
+									"host": [
+										"{{baseUrl}}"
+									],
 									"path": [
 										"api",
 										"login"
@@ -336,7 +415,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 11:54:52 GMT"
+									"value": "Mon, 10 Jun 2024 01:58:39 GMT"
 								},
 								{
 									"key": "Connection",
@@ -361,31 +440,19 @@
 						"method": "POST",
 						"header": [],
 						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "member1",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "member1@mail.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "member1",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{registerName}}\",\r\n    \"email\": \"{{registerEmail}}\",\r\n    \"password\": \"{{registerPassword}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
-							"raw": "localhost:5000/api/register",
+							"raw": "{{baseUrl}}/api/register",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
 								"api",
 								"register"
@@ -394,18 +461,13 @@
 					},
 					"response": [
 						{
-							"name": "Success Register",
+							"name": "Success register",
 							"originalRequest": {
 								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"member2\",\r\n    \"email\": \"member2@mail.com\",\r\n    \"password\": \"member2\"\r\n}",
+									"raw": "{\r\n    \"name\": \"{{registerName}}\",\r\n    \"email\": \"{{registerEmail}}\",\r\n    \"password\": \"{{registerPassword}}\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -413,11 +475,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/register",
+									"raw": "{{baseUrl}}/api/register",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"register"
@@ -446,7 +507,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 30 May 2024 21:42:06 GMT"
+									"value": "Mon, 10 Jun 2024 02:05:11 GMT"
 								},
 								{
 									"key": "Connection",
@@ -464,12 +525,7 @@
 							"name": "Required field",
 							"originalRequest": {
 								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "raw",
 									"raw": "",
@@ -480,11 +536,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/register",
+									"raw": "{{baseUrl}}/api/register",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"register"
@@ -513,7 +568,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 12:30:29 GMT"
+									"value": "Mon, 10 Jun 2024 02:05:36 GMT"
 								},
 								{
 									"key": "Connection",
@@ -537,7 +592,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoic3VwZXJhZG1pbiIsImVtYWlsIjoic3VwZXJhZG1pbkBtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNwTDcycGZZRjRLRlY3N3o0N1kyaS40MXdiTjlrNk9CLlBjU2F6Mkh3TXJYbWFXdi4yLldpIiwicm9sZSI6IlNVUEVSQURNSU4iLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0zMVQxMjowMTowNi42MjdaIiwidXBkYXRlZF9hdCI6bnVsbCwiZGVsZXRlZF9hdCI6bnVsbH0sImlhdCI6MTcxNzE1NzExOCwiZXhwIjoxNzE3MjQzNTE4fQ.1H-kqIesRV7G9jjEf2Ju5ImbTrv4v23QK_IxdeS6vLw",
+									"value": "{{tokenSuperAdmin}}",
 									"type": "string"
 								}
 							]
@@ -545,11 +600,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:5000/api/current-user",
+							"raw": "{{baseUrl}}/api/current-user",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
 								"api",
 								"current-user"
@@ -558,16 +612,15 @@
 					},
 					"response": [
 						{
-							"name": "Succes get current user",
+							"name": "Success get current user",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/current-user",
+									"raw": "{{baseUrl}}/api/current-user",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"current-user"
@@ -596,7 +649,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 12:05:59 GMT"
+									"value": "Mon, 10 Jun 2024 02:06:46 GMT"
 								},
 								{
 									"key": "Connection",
@@ -616,11 +669,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/current-user",
+									"raw": "{{baseUrl}}/api/current-user",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"current-user"
@@ -649,7 +701,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 12:06:22 GMT"
+									"value": "Mon, 10 Jun 2024 02:07:19 GMT"
 								},
 								{
 									"key": "Connection",
@@ -681,7 +733,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoic3VwZXJhZG1pbiIsImVtYWlsIjoic3VwZXJhZG1pbkBtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDNwTDcycGZZRjRLRlY3N3o0N1kyaS40MXdiTjlrNk9CLlBjU2F6Mkh3TXJYbWFXdi4yLldpIiwicm9sZSI6IlNVUEVSQURNSU4iLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0zMVQxMjowMTowNi42MjdaIiwidXBkYXRlZF9hdCI6bnVsbCwiZGVsZXRlZF9hdCI6bnVsbH0sImlhdCI6MTcxNzE1NzExOCwiZXhwIjoxNzE3MjQzNTE4fQ.1H-kqIesRV7G9jjEf2Ju5ImbTrv4v23QK_IxdeS6vLw",
+									"value": "{{tokenSuperAdmin}}",
 									"type": "string"
 								}
 							]
@@ -693,11 +745,10 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "localhost:5000/api/users/",
+							"raw": "{{baseUrl}}/api/users/",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
 								"api",
 								"users",
@@ -712,15 +763,14 @@
 								"method": "GET",
 								"header": [],
 								"body": {
-									"mode": "formdata",
-									"formdata": []
+									"mode": "raw",
+									"raw": ""
 								},
 								"url": {
-									"raw": "localhost:5000/api/users/",
+									"raw": "{{baseUrl}}/api/users/",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users",
@@ -742,15 +792,15 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "1206"
+									"value": "1207"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"4b6-fZ8wUpUwQsoEAGXmWE3ahCu3f7Y\""
+									"value": "W/\"4b7-DyTmQx7WjH7U/GaaaAAr4AZgPcc\""
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:35:15 GMT"
+									"value": "Mon, 10 Jun 2024 02:10:29 GMT"
 								},
 								{
 									"key": "Connection",
@@ -762,7 +812,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": true,\n    \"message\": \"Success Get All Users\",\n    \"total\": 5,\n    \"data\": {\n        \"users\": [\n            {\n                \"id\": 1,\n                \"name\": \"superadmin\",\n                \"email\": \"superadmin@mail.com\",\n                \"password\": \"$2b$10$lqOC5fzAQILgMiV8vpNasekbDNHhqCnD.JRctCsmM2pFshC6y4C9.\",\n                \"role\": \"SUPERADMIN\",\n                \"created_at\": \"2024-05-31T16:34:04.239Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 2,\n                \"name\": \"admin\",\n                \"email\": \"admin@mail.com\",\n                \"password\": \"$2b$10$WikPfWPMF.30mT3kyWqwy.6Vu4IdK/yOAZDch8.ItEKt/8FOXedQC\",\n                \"role\": \"ADMIN\",\n                \"created_at\": \"2024-05-31T16:34:04.294Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 3,\n                \"name\": \"member\",\n                \"email\": \"member@mail.com\",\n                \"password\": \"$2b$10$3dkM5VJoXK534XqdkcsbJuuLxioeeZpD7zVG/sJiv.qO8DCm9y1sG\",\n                \"role\": \"MEMBER\",\n                \"created_at\": \"2024-05-31T16:34:04.349Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 4,\n                \"name\": \"member inactive\",\n                \"email\": \"member1@mail.com\",\n                \"password\": \"$2b$10$pIAl2sQ9l/z4ZSqJtnZDC.YisIcsfRSW1cqE0ADOzAsc23fQOqLim\",\n                \"role\": \"MEMBER\",\n                \"created_at\": \"2024-05-31T16:34:04.403Z\",\n                \"updated_at\": null,\n                \"deleted_at\": \"2024-05-31T16:34:04.403Z\"\n            },\n            {\n                \"id\": 5,\n                \"name\": \"member2\",\n                \"email\": \"member2@mail.com\",\n                \"password\": \"$2b$10$T8A2KcrDf40IV8PoLHsUl.WaV39Pd796C9kkzR2IgfaU1JFTQ9PCG\",\n                \"role\": \"MEMBER\",\n                \"created_at\": \"2024-05-31T16:34:50.825Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"status\": true,\n    \"message\": \"Success Get All Users\",\n    \"total\": 5,\n    \"data\": {\n        \"users\": [\n            {\n                \"id\": 1,\n                \"name\": \"superadmin\",\n                \"email\": \"superadmin@mail.com\",\n                \"password\": \"$2b$10$1wOPZUWvRzN3S0my4YFPEu01.ZbtEEXyDZIRmciir3QYcQyAaOQJy\",\n                \"role\": \"SUPERADMIN\",\n                \"created_at\": \"2024-06-10T02:09:16.272Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 2,\n                \"name\": \"admin\",\n                \"email\": \"admin@mail.com\",\n                \"password\": \"$2b$10$MNfy283m5Hsm0iyiJ1wCIen02rhWbiE.FWx./EF.CEtCr2.2rih56\",\n                \"role\": \"ADMIN\",\n                \"created_at\": \"2024-06-10T02:09:16.327Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 3,\n                \"name\": \"member\",\n                \"email\": \"member@mail.com\",\n                \"password\": \"$2b$10$373UxoWyaOV4MspD4ihC9.VWHrGy/mLyqOaCPA3i2n4MyzM91QzmO\",\n                \"role\": \"MEMBER\",\n                \"created_at\": \"2024-06-10T02:09:16.382Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 4,\n                \"name\": \"member inactive\",\n                \"email\": \"member1@mail.com\",\n                \"password\": \"$2b$10$gwh3JlHiksn0JyLk5VnoD.ymBSesBcesVfaWvGAvZeJEYvOnirSVK\",\n                \"role\": \"MEMBER\",\n                \"created_at\": \"2024-06-10T02:09:16.436Z\",\n                \"updated_at\": null,\n                \"deleted_at\": \"2024-06-10T02:09:16.436Z\"\n            },\n            {\n                \"id\": 5,\n                \"name\": \"member 2\",\n                \"email\": \"member2@mail.com\",\n                \"password\": \"$2b$10$cwtSXTwdshZtYVPGTAy6Ce1NkcRxjMU9hFkQwr7eLaY6k9aO1YYBy\",\n                \"role\": \"MEMBER\",\n                \"created_at\": \"2024-06-10T02:09:38.760Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null\n            }\n        ]\n    }\n}"
 						},
 						{
 							"name": "Unauthorized",
@@ -774,11 +824,10 @@
 									"formdata": []
 								},
 								"url": {
-									"raw": "localhost:5000/api/users/",
+									"raw": "{{baseUrl}}/api/users/",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users",
@@ -808,7 +857,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 12:09:08 GMT"
+									"value": "Mon, 10 Jun 2024 02:12:17 GMT"
 								},
 								{
 									"key": "Connection",
@@ -832,11 +881,10 @@
 									"formdata": []
 								},
 								"url": {
-									"raw": "localhost:5000/api/users/",
+									"raw": "{{baseUrl}}/api/users/",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users",
@@ -866,7 +914,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 12:55:48 GMT"
+									"value": "Mon, 10 Jun 2024 02:11:55 GMT"
 								},
 								{
 									"key": "Connection",
@@ -890,7 +938,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoic3VwZXJhZG1pbiIsImVtYWlsIjoic3VwZXJhZG1pbkBtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFE2bWswMldnWk10Nkl3aGV0UnhjSXVTWmIyWGV4cVJyLy5QdGVjMTR5SVJ4emdqRUcuNEwuIiwicm9sZSI6IlNVUEVSQURNSU4iLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0zMVQxMjo0ODo1NS45OTVaIiwidXBkYXRlZF9hdCI6bnVsbCwiZGVsZXRlZF9hdCI6bnVsbH0sImlhdCI6MTcxNzE2MTAyNSwiZXhwIjoxNzE3MjQ3NDI1fQ._-G3v_Xv_Osy4OOHOCGPkTldDFJnvEhaRtGGmoADukU",
+									"value": "{{tokenSuperAdmin}}",
 									"type": "string"
 								}
 							]
@@ -898,11 +946,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:5000/api/users/:id",
+							"raw": "{{baseUrl}}/api/users/:id",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
 								"api",
 								"users",
@@ -911,8 +958,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "1",
-									"description": "Users Id"
+									"value": "1"
 								}
 							]
 						}
@@ -924,11 +970,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/users/:id",
+									"raw": "{{baseUrl}}/api/users/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users",
@@ -937,8 +982,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "1",
-											"description": "Users Id"
+											"value": "1"
 										}
 									]
 								}
@@ -952,6 +996,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -961,11 +1009,11 @@
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"129-gWPoZqqcD/pNtJ5J5anYiow8L/0\""
+									"value": "W/\"129-2l9lDh+d3iIQHivmA+7SYThMcJo\""
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:36:03 GMT"
+									"value": "Thu, 13 Jun 2024 09:53:22 GMT"
 								},
 								{
 									"key": "Connection",
@@ -977,7 +1025,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": true,\n    \"message\": \"Success Get Users By Id\",\n    \"data\": {\n        \"users\": {\n            \"id\": 1,\n            \"name\": \"superadmin\",\n            \"email\": \"superadmin@mail.com\",\n            \"password\": \"$2b$10$lqOC5fzAQILgMiV8vpNasekbDNHhqCnD.JRctCsmM2pFshC6y4C9.\",\n            \"role\": \"SUPERADMIN\",\n            \"created_at\": \"2024-05-31T16:34:04.239Z\",\n            \"updated_at\": null,\n            \"deleted_at\": null\n        }\n    }\n}"
+							"body": "{\n    \"status\": true,\n    \"message\": \"Success Get Users By Id\",\n    \"data\": {\n        \"users\": {\n            \"id\": 1,\n            \"name\": \"superadmin\",\n            \"email\": \"superadmin@mail.com\",\n            \"password\": \"$2b$10$Kqj.3hDN1bj7ZDzSK8CXwOFpbJm84RXlLCm6tcSjaxpbAJgYluUZy\",\n            \"role\": \"SUPERADMIN\",\n            \"created_at\": \"2024-06-13T09:39:04.495Z\",\n            \"updated_at\": null,\n            \"deleted_at\": null\n        }\n    }\n}"
 						},
 						{
 							"name": "Data not found (wrong id)",
@@ -985,11 +1033,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/users/:id",
+									"raw": "{{baseUrl}}/api/users/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users",
@@ -998,8 +1045,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "10",
-											"description": "Users Id"
+											"value": "10"
 										}
 									]
 								}
@@ -1011,6 +1057,10 @@
 								{
 									"key": "X-Powered-By",
 									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
 								},
 								{
 									"key": "Content-Type",
@@ -1026,7 +1076,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:00:44 GMT"
+									"value": "Thu, 13 Jun 2024 09:42:51 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1046,11 +1096,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/users/:id",
+									"raw": "{{baseUrl}}/api/users/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users",
@@ -1059,8 +1108,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "1",
-											"description": "Users Id"
+											"value": "1"
 										}
 									]
 								}
@@ -1072,6 +1120,10 @@
 								{
 									"key": "X-Powered-By",
 									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
 								},
 								{
 									"key": "Content-Type",
@@ -1087,7 +1139,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:01:06 GMT"
+									"value": "Thu, 13 Jun 2024 09:53:59 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1107,11 +1159,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/users/:id",
+									"raw": "{{baseUrl}}/api/users/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users",
@@ -1120,8 +1171,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "1",
-											"description": "Users Id"
+											"value": "1"
 										}
 									]
 								}
@@ -1133,6 +1183,10 @@
 								{
 									"key": "X-Powered-By",
 									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
 								},
 								{
 									"key": "Content-Type",
@@ -1148,7 +1202,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:01:37 GMT"
+									"value": "Thu, 13 Jun 2024 09:54:13 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1172,7 +1226,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoic3VwZXJhZG1pbiIsImVtYWlsIjoic3VwZXJhZG1pbkBtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJDM2SmxqaUxXbllnYmRsR1YyWldhVGVnbmRwYWZpcnI5UkVubGt5SFpWSkNpc3ZqSlE2MjhHIiwicm9sZSI6IlNVUEVSQURNSU4iLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0zMFQyMTo0OTo0Ni4zNTJaIiwidXBkYXRlZF9hdCI6bnVsbCwiZGVsZXRlZF9hdCI6bnVsbH0sImlhdCI6MTcxNzE1NjM0MSwiZXhwIjoxNzE3MjQyNzQxfQ.tmgyT99HfAJoBg9aWaL3wtpLg-Z9C7SN0hpx3zScuxo",
+									"value": "{{tokenSuperAdmin}}",
 									"type": "string"
 								}
 							]
@@ -1181,7 +1235,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"admin2\",\r\n    \"email\": \"admin2@mail.com\",\r\n    \"password\": \"admin2\",\r\n    \"role\": \"admin\"\r\n}",
+							"raw": "{\r\n    \"name\": \"{{insertName}}\",\r\n    \"email\": \"{{insertEmail}}\",\r\n    \"password\": \"{{insertPassword}}\",\r\n    \"role\": \"admin\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1189,11 +1243,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:5000/api/users",
+							"raw": "{{baseUrl}}/api/users",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
 								"api",
 								"users"
@@ -1208,7 +1261,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"admin2\",\r\n    \"email\": \"admin2@mail.com\",\r\n    \"password\": \"admin2\",\r\n    \"role\": \"admin\"\r\n}",
+									"raw": "{\r\n    \"name\": \"{{insertName}}\",\r\n    \"email\": \"{{insertEmail}}\",\r\n    \"password\": \"{{insertPassword}}\",\r\n    \"role\": \"admin\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1216,11 +1269,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/users",
+									"raw": "{{baseUrl}}/api/users",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users"
@@ -1236,6 +1288,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -1249,7 +1305,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 12:52:19 GMT"
+									"value": "Thu, 13 Jun 2024 09:47:43 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1270,7 +1326,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n   \r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1278,11 +1334,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/users",
+									"raw": "{{baseUrl}}/api/users",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users"
@@ -1298,6 +1353,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -1311,7 +1370,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 12:54:32 GMT"
+									"value": "Thu, 13 Jun 2024 09:48:19 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1331,36 +1390,19 @@
 								"method": "POST",
 								"header": [],
 								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "name",
-											"value": "admin1",
-											"type": "text"
-										},
-										{
-											"key": "email",
-											"value": "admin1@mail.com",
-											"type": "text"
-										},
-										{
-											"key": "password",
-											"value": "admin1",
-											"type": "text"
-										},
-										{
-											"key": "role",
-											"value": "admin",
-											"type": "text"
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{insertName}}\",\r\n    \"email\": \"{{insertEmail}}\",\r\n    \"password\": \"{{insertPassword}}\",\r\n    \"role\": \"admin\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
 										}
-									]
+									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/users",
+									"raw": "{{baseUrl}}/api/users",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users"
@@ -1376,6 +1418,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -1389,7 +1435,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 12:37:54 GMT"
+									"value": "Thu, 13 Jun 2024 09:48:37 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1410,7 +1456,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"admin3\",\r\n    \"email\": \"admin3@mail.com\",\r\n    \"password\": \"admin3\",\r\n    \"role\": \"admin\"\r\n}",
+									"raw": "{\r\n    \"name\": \"{{insertName}}\",\r\n    \"email\": \"{{insertEmail}}\",\r\n    \"password\": \"{{insertPassword}}\",\r\n    \"role\": \"admin\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1418,11 +1464,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/users",
+									"raw": "{{baseUrl}}/api/users",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users"
@@ -1438,6 +1483,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -1451,7 +1500,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 12:51:06 GMT"
+									"value": "Thu, 13 Jun 2024 09:48:54 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1475,7 +1524,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoic3VwZXJhZG1pbiIsImVtYWlsIjoic3VwZXJhZG1pbkBtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFE2bWswMldnWk10Nkl3aGV0UnhjSXVTWmIyWGV4cVJyLy5QdGVjMTR5SVJ4emdqRUcuNEwuIiwicm9sZSI6IlNVUEVSQURNSU4iLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0zMVQxMjo0ODo1NS45OTVaIiwidXBkYXRlZF9hdCI6bnVsbCwiZGVsZXRlZF9hdCI6bnVsbH0sImlhdCI6MTcxNzE2MTAyNSwiZXhwIjoxNzE3MjQ3NDI1fQ._-G3v_Xv_Osy4OOHOCGPkTldDFJnvEhaRtGGmoADukU",
+									"value": "{{tokenSuperAdmin}}",
 									"type": "string"
 								}
 							]
@@ -1484,7 +1533,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"admin2 updated\",\r\n    \"email\": \"admin22@mail.com\",\r\n    \"password\": \"admin22\",\r\n    \"role\": \"admin\"\r\n}",
+							"raw": "{\r\n    \"name\": \"{{updateName}}\",\r\n    \"email\": \"{{updateEmail}}\",\r\n    \"password\": \"{{updatePassword}}\",\r\n    \"role\": \"admin\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1492,11 +1541,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:5000/api/users/:id",
+							"raw": "{{baseUrl}}/api/users/:id",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
 								"api",
 								"users",
@@ -1519,7 +1567,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"admin2 updated\",\r\n    \"email\": \"admin22@mail.com\",\r\n    \"password\": \"admin22\",\r\n    \"role\": \"admin\"\r\n}",
+									"raw": "{\r\n    \"name\": \"{{updateName}}\",\r\n    \"email\": \"{{updateEmail}}\",\r\n    \"password\": \"{{updatePassword}}\",\r\n    \"role\": \"admin\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1527,11 +1575,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/users/:id",
+									"raw": "{{baseUrl}}/api/users/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users",
@@ -1555,6 +1602,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -1568,7 +1619,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:02:52 GMT"
+									"value": "Thu, 13 Jun 2024 09:55:55 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1589,7 +1640,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"admin2 updated\",\r\n    \"email\": \"admin22@mail.com\",\r\n    \"password\": \"admin22\",\r\n    \"role\": \"admin\"\r\n}",
+									"raw": "{\r\n    \"name\": \"{{updateName}}\",\r\n    \"email\": \"{{updateEmail}}\",\r\n    \"password\": \"{{updatePassword}}\",\r\n    \"role\": \"admin\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1597,11 +1648,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/users/:id",
+									"raw": "{{baseUrl}}/api/users/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users",
@@ -1625,6 +1675,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -1638,7 +1692,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:03:23 GMT"
+									"value": "Thu, 13 Jun 2024 09:56:11 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1667,11 +1721,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/users/:id",
+									"raw": "{{baseUrl}}/api/users/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users",
@@ -1695,6 +1748,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -1708,7 +1765,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:03:55 GMT"
+									"value": "Thu, 13 Jun 2024 09:56:36 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1729,7 +1786,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"admin2 updated\",\r\n    \"email\": \"admin22@mail.com\",\r\n    \"password\": \"admin22\",\r\n    \"role\": \"admin\"\r\n}",
+									"raw": "{\r\n    \"name\": \"{{updateName}}\",\r\n    \"email\": \"{{updateEmail}}\",\r\n    \"password\": \"{{updatePassword}}\",\r\n    \"role\": \"admin\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1737,11 +1794,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/users/:id",
+									"raw": "{{baseUrl}}/api/users/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users",
@@ -1765,6 +1821,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -1778,7 +1838,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:04:16 GMT"
+									"value": "Thu, 13 Jun 2024 09:56:53 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1799,7 +1859,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"admin2 updated\",\r\n    \"email\": \"admin22@mail.com\",\r\n    \"password\": \"admin22\",\r\n    \"role\": \"admin\"\r\n}",
+									"raw": "{\r\n    \"name\": \"{{updateName}}\",\r\n    \"email\": \"{{updateEmail}}\",\r\n    \"password\": \"{{updatePassword}}\",\r\n    \"role\": \"admin\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1807,11 +1867,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/users/:id",
+									"raw": "{{baseUrl}}/api/users/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users",
@@ -1835,6 +1894,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -1848,7 +1911,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:04:37 GMT"
+									"value": "Thu, 13 Jun 2024 09:57:08 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1872,7 +1935,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoic3VwZXJhZG1pbiIsImVtYWlsIjoic3VwZXJhZG1pbkBtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFE2bWswMldnWk10Nkl3aGV0UnhjSXVTWmIyWGV4cVJyLy5QdGVjMTR5SVJ4emdqRUcuNEwuIiwicm9sZSI6IlNVUEVSQURNSU4iLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0zMVQxMjo0ODo1NS45OTVaIiwidXBkYXRlZF9hdCI6bnVsbCwiZGVsZXRlZF9hdCI6bnVsbH0sImlhdCI6MTcxNzE2MTAyNSwiZXhwIjoxNzE3MjQ3NDI1fQ._-G3v_Xv_Osy4OOHOCGPkTldDFJnvEhaRtGGmoADukU",
+									"value": "{{tokenSuperAdmin}}",
 									"type": "string"
 								}
 							]
@@ -1889,11 +1952,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:5000/api/users/:id",
+							"raw": "{{baseUrl}}/api/users/:id",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
 								"api",
 								"users",
@@ -1924,11 +1986,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/users/:id",
+									"raw": "{{baseUrl}}/api/users/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users",
@@ -1952,6 +2013,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -1965,7 +2030,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:06:51 GMT"
+									"value": "Thu, 13 Jun 2024 09:59:34 GMT"
 								},
 								{
 									"key": "Connection",
@@ -1994,11 +2059,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/users/:id",
+									"raw": "{{baseUrl}}/api/users/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users",
@@ -2022,6 +2086,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -2035,7 +2103,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:07:07 GMT"
+									"value": "Thu, 13 Jun 2024 09:58:37 GMT"
 								},
 								{
 									"key": "Connection",
@@ -2064,11 +2132,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/users/:id",
+									"raw": "{{baseUrl}}/api/users/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users",
@@ -2092,6 +2159,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -2105,7 +2176,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:07:24 GMT"
+									"value": "Thu, 13 Jun 2024 09:58:56 GMT"
 								},
 								{
 									"key": "Connection",
@@ -2134,11 +2205,10 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:5000/api/users/:id",
+									"raw": "{{baseUrl}}/api/users/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"users",
@@ -2162,6 +2232,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -2175,7 +2249,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:07:55 GMT"
+									"value": "Thu, 13 Jun 2024 09:59:12 GMT"
 								},
 								{
 									"key": "Connection",
@@ -2204,7 +2278,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoic3VwZXJhZG1pbiIsImVtYWlsIjoic3VwZXJhZG1pbkBtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFE2bWswMldnWk10Nkl3aGV0UnhjSXVTWmIyWGV4cVJyLy5QdGVjMTR5SVJ4emdqRUcuNEwuIiwicm9sZSI6IlNVUEVSQURNSU4iLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0zMVQxMjo0ODo1NS45OTVaIiwidXBkYXRlZF9hdCI6bnVsbCwiZGVsZXRlZF9hdCI6bnVsbH0sImlhdCI6MTcxNzE2MTAyNSwiZXhwIjoxNzE3MjQ3NDI1fQ._-G3v_Xv_Osy4OOHOCGPkTldDFJnvEhaRtGGmoADukU",
+									"value": "{{tokenSuperAdmin}}",
 									"type": "string"
 								}
 							]
@@ -2212,11 +2286,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:5000/api/cars/",
+							"raw": "{{baseUrl}}/api/cars/",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
 								"api",
 								"cars",
@@ -2231,11 +2304,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/cars/",
+									"raw": "{{baseUrl}}/api/cars/",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -2252,20 +2324,24 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
 								{
 									"key": "Content-Length",
-									"value": "1082"
+									"value": "2749"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"43a-F/HJ9qC83BwTBe/YWM4V7qUwRrk\""
+									"value": "W/\"abd-Pp5CBZTbMzqwpsAxv7prPEpfe9M\""
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:38:20 GMT"
+									"value": "Thu, 13 Jun 2024 10:00:58 GMT"
 								},
 								{
 									"key": "Connection",
@@ -2277,61 +2353,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": true,\n    \"message\": \"Success Get All Cars\",\n    \"total\": 3,\n    \"data\": {\n        \"cars\": [\n            {\n                \"id\": 3,\n                \"name\": \"Mobil 3\",\n                \"price\": 900,\n                \"size\": \"Large\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801963/challenge5/ifpfouew8d4wlv8zm3in.jpg\",\n                \"start_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"finish_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"available\": true,\n                \"created_at\": \"2024-05-31T16:34:04.180Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 2,\n                \"name\": \"Mobil 2\",\n                \"price\": 500,\n                \"size\": \"Medium\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801963/challenge5/wjkgvj4akcrenh1mmwec.jpg\",\n                \"start_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"finish_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"available\": true,\n                \"created_at\": \"2024-05-31T16:34:04.180Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 1,\n                \"name\": \"Mobil 1\",\n                \"price\": 100,\n                \"size\": \"Small\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801964/challenge5/hoqqtv26r8qgv46jexlm.jpg\",\n                \"start_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"finish_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"available\": true,\n                \"created_at\": \"2024-05-31T16:34:04.180Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null\n            }\n        ]\n    }\n}"
-						},
-						{
-							"name": "Cannot access this feature",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "localhost:5000/api/cars/",
-									"host": [
-										"localhost"
-									],
-									"port": "5000",
-									"path": [
-										"api",
-										"cars",
-										""
-									]
-								}
-							},
-							"status": "Unauthorized",
-							"code": 401,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "45"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"2d-nNueFybNjr2d/QRJSlsxRNsP6hk\""
-								},
-								{
-									"key": "Date",
-									"value": "Fri, 31 May 2024 13:59:58 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"message\": \"You cannot access this feature!\"\n}"
+							"body": "{\n    \"status\": true,\n    \"message\": \"Success Get All Cars\",\n    \"total\": 3,\n    \"data\": {\n        \"cars\": [\n            {\n                \"id\": 3,\n                \"typeDriver\": \"Without Driver\",\n                \"plate\": \"OSL-4224\",\n                \"manufacture\": \"Lincoln\",\n                \"model\": \"MKZ\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801963/challenge5/ifpfouew8d4wlv8zm3in.jpg\",\n                \"rentPerDay\": 900000,\n                \"capacity\": 6,\n                \"description\": \"Driver & front passenger map pockets. Direct-type tire pressure monitor system. Cargo area lamp. Glove box lamp.\",\n                \"transmission\": \"Automanual\",\n                \"available\": true,\n                \"type\": \"Sedan\",\n                \"year\": 2021,\n                \"availableAt\": \"2024-06-13T09:39:04.413Z\",\n                \"options\": [\n                    \"Bucket Seats\",\n                    \"Airbag: Passenger\",\n                    \"Airbag: Driver\",\n                    \"Power Seats\",\n                    \"Airbag: Side\",\n                    \"Antilock Brakes\",\n                    \"CD (Multi Disc)\"\n                ],\n                \"specs\": [\n                    \"Driver & front passenger map pockets\",\n                    \"Direct-type tire pressure monitor system\",\n                    \"Cargo area lamp\",\n                    \"Glove box lamp\",\n                    \"Silver finish interior door handles\",\n                    \"Driver & front passenger advanced multistage airbags w/occupant sensors\",\n                    \"Silver accent IP trim finisher -inc: silver shifter finisher\",\n                    \"Fasten seat belt warning light/chime\"\n                ],\n                \"created_at\": \"2024-06-13T09:39:04.413Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 2,\n                \"typeDriver\": \"With Driver\",\n                \"plate\": \"WXB-3984\",\n                \"manufacture\": \"BMW\",\n                \"model\": \"X5\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801963/challenge5/wjkgvj4akcrenh1mmwec.jpg\",\n                \"rentPerDay\": 800000,\n                \"capacity\": 6,\n                \"description\": \"Rear passenger map pockets. Electrochromic rearview mirror. Dual chrome exhaust tips. Locking glove box.\",\n                \"transmission\": \"Automatic\",\n                \"available\": false,\n                \"type\": \"Convertible\",\n                \"year\": 2019,\n                \"availableAt\": \"2024-06-13T09:39:04.413Z\",\n                \"options\": [\n                    \"Keyless Entry\",\n                    \"Power Windows\",\n                    \"MP3 (Single Disc)\",\n                    \"CD (Multi Disc)\",\n                    \"Navigation\"\n                ],\n                \"specs\": [\n                    \"Rear passenger map pockets\",\n                    \"Electrochromic rearview mirror\",\n                    \"Dual chrome exhaust tips\",\n                    \"Locking glove box\",\n                    \"Pwr front vented disc/rear drum brakes\"\n                ],\n                \"created_at\": \"2024-06-13T09:39:04.413Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 1,\n                \"typeDriver\": \"With Driver\",\n                \"plate\": \"DBH-3491\",\n                \"manufacture\": \"Ford\",\n                \"model\": \"F150\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801964/challenge5/hoqqtv26r8qgv46jexlm.jpg\",\n                \"rentPerDay\": 200000,\n                \"capacity\": 2,\n                \"description\": \"Brake assist. Leather-wrapped shift knob. Glove box lamp. Air conditioning w/in-cabin microfilter.\",\n                \"transmission\": \"Automatic\",\n                \"available\": true,\n                \"type\": \"Sedan\",\n                \"year\": 2022,\n                \"availableAt\": \"2024-06-13T09:39:04.413Z\",\n                \"options\": [\n                    \"Cruise Control\",\n                    \"Tinted Glass\",\n                    \"Tinted Glass\",\n                    \"Tinted Glass\",\n                    \"AM/FM Stereo\"\n                ],\n                \"specs\": [\n                    \"Brake assist\",\n                    \"Leather-wrapped shift knob\",\n                    \"Glove box lamp\",\n                    \"Air conditioning w/in-cabin microfilter\",\n                    \"Body color folding remote-controlled pwr mirrors\",\n                    \"Dual-stage front airbags w/occupant classification system\"\n                ],\n                \"created_at\": \"2024-06-13T09:39:04.413Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null\n            }\n        ]\n    }\n}"
 						},
 						{
 							"name": "Unauthorized",
@@ -2339,11 +2361,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/cars/",
+									"raw": "{{baseUrl}}/api/cars/",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -2358,6 +2379,10 @@
 								{
 									"key": "X-Powered-By",
 									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
 								},
 								{
 									"key": "Content-Type",
@@ -2373,7 +2398,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 14:00:18 GMT"
+									"value": "Thu, 13 Jun 2024 10:02:36 GMT"
 								},
 								{
 									"key": "Connection",
@@ -2386,6 +2411,63 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"message\": \"Unauthorized\"\n}"
+						},
+						{
+							"name": "Cannot access this feature",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/cars/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"cars",
+										""
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "45"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2d-nNueFybNjr2d/QRJSlsxRNsP6hk\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 13 Jun 2024 10:03:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"You cannot access this feature!\"\n}"
 						}
 					]
 				},
@@ -2397,7 +2479,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoic3VwZXJhZG1pbiIsImVtYWlsIjoic3VwZXJhZG1pbkBtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFE2bWswMldnWk10Nkl3aGV0UnhjSXVTWmIyWGV4cVJyLy5QdGVjMTR5SVJ4emdqRUcuNEwuIiwicm9sZSI6IlNVUEVSQURNSU4iLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0zMVQxMjo0ODo1NS45OTVaIiwidXBkYXRlZF9hdCI6bnVsbCwiZGVsZXRlZF9hdCI6bnVsbH0sImlhdCI6MTcxNzE2MTAyNSwiZXhwIjoxNzE3MjQ3NDI1fQ._-G3v_Xv_Osy4OOHOCGPkTldDFJnvEhaRtGGmoADukU",
+									"value": "{{tokenSuperAdmin}}",
 									"type": "string"
 								}
 							]
@@ -2405,11 +2487,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:5000/api/cars/:id",
+							"raw": "{{baseUrl}}/api/cars/:id",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
 								"api",
 								"cars",
@@ -2418,8 +2499,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "1",
-									"description": "Cars Id"
+									"value": "1"
 								}
 							]
 						}
@@ -2431,11 +2511,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/cars/:id",
+									"raw": "{{baseUrl}}/api/cars/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -2444,8 +2523,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "1",
-											"description": "Cars Id"
+											"value": "1"
 										}
 									]
 								}
@@ -2459,20 +2537,24 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
 								{
 									"key": "Content-Length",
-									"value": "403"
+									"value": "914"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"193-PDW0ZsLZOQAMpgYj29zpPu/60xY\""
+									"value": "W/\"392-MW/9xQEviwMWQGl8hCsLa+jekmc\""
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:39:54 GMT"
+									"value": "Thu, 13 Jun 2024 10:04:54 GMT"
 								},
 								{
 									"key": "Connection",
@@ -2484,7 +2566,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": true,\n    \"message\": \"Success Get Cars By Id\",\n    \"data\": {\n        \"cars\": [\n            {\n                \"id\": 1,\n                \"name\": \"Mobil 1\",\n                \"price\": 100,\n                \"size\": \"Small\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801964/challenge5/hoqqtv26r8qgv46jexlm.jpg\",\n                \"start_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"finish_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"available\": true,\n                \"created_at\": \"2024-05-31T16:34:04.180Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"status\": true,\n    \"message\": \"Success Get Cars By Id\",\n    \"data\": {\n        \"cars\": {\n            \"id\": 1,\n            \"typeDriver\": \"With Driver\",\n            \"plate\": \"DBH-3491\",\n            \"manufacture\": \"Ford\",\n            \"model\": \"F150\",\n            \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801964/challenge5/hoqqtv26r8qgv46jexlm.jpg\",\n            \"rentPerDay\": 200000,\n            \"capacity\": 2,\n            \"description\": \"Brake assist. Leather-wrapped shift knob. Glove box lamp. Air conditioning w/in-cabin microfilter.\",\n            \"transmission\": \"Automatic\",\n            \"available\": true,\n            \"type\": \"Sedan\",\n            \"year\": 2022,\n            \"availableAt\": \"2024-06-13T09:39:04.413Z\",\n            \"options\": [\n                \"Cruise Control\",\n                \"Tinted Glass\",\n                \"Tinted Glass\",\n                \"Tinted Glass\",\n                \"AM/FM Stereo\"\n            ],\n            \"specs\": [\n                \"Brake assist\",\n                \"Leather-wrapped shift knob\",\n                \"Glove box lamp\",\n                \"Air conditioning w/in-cabin microfilter\",\n                \"Body color folding remote-controlled pwr mirrors\",\n                \"Dual-stage front airbags w/occupant classification system\"\n            ],\n            \"created_at\": \"2024-06-13T09:39:04.413Z\",\n            \"updated_at\": null,\n            \"deleted_at\": null\n        }\n    }\n}"
 						},
 						{
 							"name": "Data not found (wrong id)",
@@ -2492,11 +2574,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/cars/:id",
+									"raw": "{{baseUrl}}/api/cars/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -2505,8 +2586,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "10",
-											"description": "Cars Id"
+											"value": "10"
 										}
 									]
 								}
@@ -2518,6 +2598,10 @@
 								{
 									"key": "X-Powered-By",
 									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
 								},
 								{
 									"key": "Content-Type",
@@ -2533,7 +2617,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:09:33 GMT"
+									"value": "Thu, 13 Jun 2024 10:05:17 GMT"
 								},
 								{
 									"key": "Connection",
@@ -2553,11 +2637,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/cars/:id",
+									"raw": "{{baseUrl}}/api/cars/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -2566,8 +2649,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "1",
-											"description": "Cars Id"
+											"value": "1"
 										}
 									]
 								}
@@ -2579,6 +2661,10 @@
 								{
 									"key": "X-Powered-By",
 									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
 								},
 								{
 									"key": "Content-Type",
@@ -2594,7 +2680,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:09:44 GMT"
+									"value": "Thu, 13 Jun 2024 10:05:34 GMT"
 								},
 								{
 									"key": "Connection",
@@ -2614,11 +2700,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/cars/:id",
+									"raw": "{{baseUrl}}/api/cars/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -2627,8 +2712,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "1",
-											"description": "Cars Id"
+											"value": "1"
 										}
 									]
 								}
@@ -2640,6 +2724,10 @@
 								{
 									"key": "X-Powered-By",
 									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
 								},
 								{
 									"key": "Content-Type",
@@ -2655,7 +2743,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:10:03 GMT"
+									"value": "Thu, 13 Jun 2024 10:06:01 GMT"
 								},
 								{
 									"key": "Connection",
@@ -2679,7 +2767,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoic3VwZXJhZG1pbiIsImVtYWlsIjoic3VwZXJhZG1pbkBtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFE2bWswMldnWk10Nkl3aGV0UnhjSXVTWmIyWGV4cVJyLy5QdGVjMTR5SVJ4emdqRUcuNEwuIiwicm9sZSI6IlNVUEVSQURNSU4iLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0zMVQxMjo0ODo1NS45OTVaIiwidXBkYXRlZF9hdCI6bnVsbCwiZGVsZXRlZF9hdCI6bnVsbH0sImlhdCI6MTcxNzE2MTAyNSwiZXhwIjoxNzE3MjQ3NDI1fQ._-G3v_Xv_Osy4OOHOCGPkTldDFJnvEhaRtGGmoADukU",
+									"value": "{{tokenSuperAdmin}}",
 									"type": "string"
 								}
 							]
@@ -2690,48 +2778,107 @@
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "name",
-									"value": "Mobil 4",
+									"key": "typeDriver",
+									"value": "Without Driver",
 									"type": "text"
 								},
 								{
-									"key": "price",
-									"value": "4000",
+									"key": "plate",
+									"value": "VPT-9753",
 									"type": "text"
 								},
 								{
-									"key": "size",
-									"value": "Small",
+									"key": "manufacture",
+									"value": "BMW",
+									"type": "text"
+								},
+								{
+									"key": "model",
+									"value": "M5",
 									"type": "text"
 								},
 								{
 									"key": "image",
 									"type": "file",
-									"src": "/D:/Data Fachri/Pictures/743487.jpg"
+									"src": "/C:/Users/muhfachriannoor/Downloads/img_car.png"
 								},
 								{
-									"key": "start_rent",
-									"value": "2024-05-15T12:22:09.482Z",
+									"key": "rentPerDay",
+									"value": "900000",
 									"type": "text"
 								},
 								{
-									"key": "finish_rent",
-									"value": "2024-05-16T12:22:09.482Z",
+									"key": "capacity",
+									"value": "6",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "6.1L SRT V8 \\\"Hemi\\\" engine.",
+									"type": "text"
+								},
+								{
+									"key": "transmission",
+									"value": "Manual",
 									"type": "text"
 								},
 								{
 									"key": "available",
 									"value": "true",
 									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "Hatchback",
+									"type": "text"
+								},
+								{
+									"key": "year",
+									"value": "2018",
+									"type": "text"
+								},
+								{
+									"key": "availableAt",
+									"value": "2024-06-09T23:19:09.025Z",
+									"type": "text"
+								},
+								{
+									"key": "options",
+									"value": "Alloy Wheels",
+									"type": "text"
+								},
+								{
+									"key": "options",
+									"value": "Power Locks",
+									"type": "text"
+								},
+								{
+									"key": "options",
+									"value": "A/C: Rear",
+									"type": "text"
+								},
+								{
+									"key": "specs",
+									"value": "6.1L SRT V8 \\\"Hemi\\\" engine",
+									"type": "text"
+								},
+								{
+									"key": "specs",
+									"value": "Front & rear passenger folding assist grips",
+									"type": "text"
+								},
+								{
+									"key": "specs",
+									"value": "Electronic throttle control system w/intelligence (ETCS-i)",
+									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "localhost:5000/api/cars",
+							"raw": "{{baseUrl}}/api/cars",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
 								"api",
 								"cars"
@@ -2748,48 +2895,107 @@
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "name",
-											"value": "Mobil 4",
+											"key": "typeDriver",
+											"value": "Without Driver",
 											"type": "text"
 										},
 										{
-											"key": "price",
-											"value": "4000",
+											"key": "plate",
+											"value": "VPT-9753",
 											"type": "text"
 										},
 										{
-											"key": "size",
-											"value": "Small",
+											"key": "manufacture",
+											"value": "BMW",
+											"type": "text"
+										},
+										{
+											"key": "model",
+											"value": "M5",
 											"type": "text"
 										},
 										{
 											"key": "image",
 											"type": "file",
-											"src": "/D:/Data Fachri/Pictures/663591.png"
+											"src": "/C:/Users/muhfachriannoor/Downloads/img_car.png"
 										},
 										{
-											"key": "start_rent",
-											"value": "2024-05-15T12:22:09.482Z",
+											"key": "rentPerDay",
+											"value": "900000",
 											"type": "text"
 										},
 										{
-											"key": "finish_rent",
-											"value": "2024-05-16T12:22:09.482Z",
+											"key": "capacity",
+											"value": "6",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "6.1L SRT V8 \\\"Hemi\\\" engine.",
+											"type": "text"
+										},
+										{
+											"key": "transmission",
+											"value": "Manual",
 											"type": "text"
 										},
 										{
 											"key": "available",
 											"value": "true",
 											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "Hatchback",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2018",
+											"type": "text"
+										},
+										{
+											"key": "availableAt",
+											"value": "2024-06-09T23:19:09.025Z",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "Alloy Wheels",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "Power Locks",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "A/C: Rear",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "6.1L SRT V8 \\\"Hemi\\\" engine",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Front & rear passenger folding assist grips",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Electronic throttle control system w/intelligence (ETCS-i)",
+											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "localhost:5000/api/cars",
+									"raw": "{{baseUrl}}/api/cars",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars"
@@ -2805,6 +3011,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -2818,7 +3028,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 15:19:53 GMT"
+									"value": "Thu, 13 Jun 2024 10:08:01 GMT"
 								},
 								{
 									"key": "Connection",
@@ -2841,48 +3051,126 @@
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "name",
-											"value": "",
-											"type": "text"
+											"key": "typeDriver",
+											"value": "Without Driver",
+											"type": "text",
+											"disabled": true
 										},
 										{
-											"key": "price",
-											"value": "",
-											"type": "text"
+											"key": "plate",
+											"value": "VPT-9753",
+											"type": "text",
+											"disabled": true
 										},
 										{
-											"key": "size",
-											"value": "",
-											"type": "text"
+											"key": "manufacture",
+											"value": "BMW",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "model",
+											"value": "M5",
+											"type": "text",
+											"disabled": true
 										},
 										{
 											"key": "image",
 											"type": "file",
-											"src": []
+											"src": "/C:/Users/muhfachriannoor/Downloads/img_car.png",
+											"disabled": true
 										},
 										{
-											"key": "start_rent",
-											"value": "",
-											"type": "text"
+											"key": "rentPerDay",
+											"value": "900000",
+											"type": "text",
+											"disabled": true
 										},
 										{
-											"key": "finish_rent",
-											"value": "",
-											"type": "text"
+											"key": "capacity",
+											"value": "6",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "6.1L SRT V8 \\\"Hemi\\\" engine.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "transmission",
+											"value": "Manual",
+											"type": "text",
+											"disabled": true
 										},
 										{
 											"key": "available",
-											"value": "",
-											"type": "text"
+											"value": "true",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "type",
+											"value": "Hatchback",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "year",
+											"value": "2018",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "availableAt",
+											"value": "2024-06-09T23:19:09.025Z",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "options",
+											"value": "Alloy Wheels",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "options",
+											"value": "Power Locks",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "options",
+											"value": "A/C: Rear",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "specs",
+											"value": "6.1L SRT V8 \\\"Hemi\\\" engine",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "specs",
+											"value": "Front & rear passenger folding assist grips",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "specs",
+											"value": "Electronic throttle control system w/intelligence (ETCS-i)",
+											"type": "text",
+											"disabled": true
 										}
 									]
 								},
 								"url": {
-									"raw": "localhost:5000/api/cars",
+									"raw": "{{baseUrl}}/api/cars",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars"
@@ -2898,20 +3186,24 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
 								{
 									"key": "Content-Length",
-									"value": "399"
+									"value": "498"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"18f-4RlgxThl3YeixDxyAb31W2TnzAk\""
+									"value": "W/\"1f2-+qUFgzpUkLAH+4FzIIKdooFbq6o\""
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 15:17:05 GMT"
+									"value": "Thu, 13 Jun 2024 10:08:29 GMT"
 								},
 								{
 									"key": "Connection",
@@ -2923,7 +3215,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": false,\n    \"message\": \"Validation Error\",\n    \"data\": {\n        \"validations\": [\n            \"name is a required field\",\n            \"price must be a positive number\",\n            \"size is a required field\",\n            \"image is a required field\",\n            \"start_rent must be a `date` type, but the final value was: `Invalid Date` (cast from the value `\\\"\\\"`).\",\n            \"finish_rent must be a `date` type, but the final value was: `Invalid Date` (cast from the value `\\\"\\\"`).\"\n        ]\n    }\n}"
+							"body": "{\n    \"status\": false,\n    \"message\": \"Validation Error\",\n    \"data\": {\n        \"validations\": [\n            \"typeDriver is a required field\",\n            \"plate is a required field\",\n            \"manufacture is a required field\",\n            \"model is a required field\",\n            \"image is a required field\",\n            \"rentPerDay is a required field\",\n            \"capacity is a required field\",\n            \"description is a required field\",\n            \"transmission is a required field\",\n            \"available is a required field\",\n            \"type is a required field\",\n            \"year is a required field\",\n            \"options is a required field\",\n            \"specs is a required field\"\n        ]\n    }\n}"
 						},
 						{
 							"name": "Unauthorized",
@@ -2934,48 +3226,107 @@
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "name",
-											"value": "Mobil 4",
+											"key": "typeDriver",
+											"value": "Without Driver",
 											"type": "text"
 										},
 										{
-											"key": "price",
-											"value": "4000",
+											"key": "plate",
+											"value": "VPT-9753",
 											"type": "text"
 										},
 										{
-											"key": "size",
-											"value": "Small",
+											"key": "manufacture",
+											"value": "BMW",
+											"type": "text"
+										},
+										{
+											"key": "model",
+											"value": "M5",
 											"type": "text"
 										},
 										{
 											"key": "image",
 											"type": "file",
-											"src": "/D:/Data Fachri/Pictures/663591.png"
+											"src": "/C:/Users/muhfachriannoor/Downloads/img_car.png"
 										},
 										{
-											"key": "start_rent",
-											"value": "2024-05-15T12:22:09.482Z",
+											"key": "rentPerDay",
+											"value": "900000",
 											"type": "text"
 										},
 										{
-											"key": "finish_rent",
-											"value": "2024-05-16T12:22:09.482Z",
+											"key": "capacity",
+											"value": "6",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "6.1L SRT V8 \\\"Hemi\\\" engine.",
+											"type": "text"
+										},
+										{
+											"key": "transmission",
+											"value": "Manual",
 											"type": "text"
 										},
 										{
 											"key": "available",
 											"value": "true",
 											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "Hatchback",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2018",
+											"type": "text"
+										},
+										{
+											"key": "availableAt",
+											"value": "2024-06-09T23:19:09.025Z",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "Alloy Wheels",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "Power Locks",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "A/C: Rear",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "6.1L SRT V8 \\\"Hemi\\\" engine",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Front & rear passenger folding assist grips",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Electronic throttle control system w/intelligence (ETCS-i)",
+											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "localhost:5000/api/cars",
+									"raw": "{{baseUrl}}/api/cars",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars"
@@ -2991,6 +3342,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -3004,7 +3359,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 15:19:01 GMT"
+									"value": "Thu, 13 Jun 2024 10:08:56 GMT"
 								},
 								{
 									"key": "Connection",
@@ -3027,48 +3382,107 @@
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "name",
-											"value": "Mobil 4",
+											"key": "typeDriver",
+											"value": "Without Driver",
 											"type": "text"
 										},
 										{
-											"key": "price",
-											"value": "4000",
+											"key": "plate",
+											"value": "VPT-9753",
 											"type": "text"
 										},
 										{
-											"key": "size",
-											"value": "Small",
+											"key": "manufacture",
+											"value": "BMW",
+											"type": "text"
+										},
+										{
+											"key": "model",
+											"value": "M5",
 											"type": "text"
 										},
 										{
 											"key": "image",
 											"type": "file",
-											"src": "/D:/Data Fachri/Pictures/663591.png"
+											"src": "/C:/Users/muhfachriannoor/Downloads/img_car.png"
 										},
 										{
-											"key": "start_rent",
-											"value": "2024-05-15T12:22:09.482Z",
+											"key": "rentPerDay",
+											"value": "900000",
 											"type": "text"
 										},
 										{
-											"key": "finish_rent",
-											"value": "2024-05-16T12:22:09.482Z",
+											"key": "capacity",
+											"value": "6",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "6.1L SRT V8 \\\"Hemi\\\" engine.",
+											"type": "text"
+										},
+										{
+											"key": "transmission",
+											"value": "Manual",
 											"type": "text"
 										},
 										{
 											"key": "available",
 											"value": "true",
 											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "Hatchback",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2018",
+											"type": "text"
+										},
+										{
+											"key": "availableAt",
+											"value": "2024-06-09T23:19:09.025Z",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "Alloy Wheels",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "Power Locks",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "A/C: Rear",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "6.1L SRT V8 \\\"Hemi\\\" engine",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Front & rear passenger folding assist grips",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Electronic throttle control system w/intelligence (ETCS-i)",
+											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "localhost:5000/api/cars",
+									"raw": "{{baseUrl}}/api/cars",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars"
@@ -3084,6 +3498,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -3097,7 +3515,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 15:19:33 GMT"
+									"value": "Thu, 13 Jun 2024 10:09:20 GMT"
 								},
 								{
 									"key": "Connection",
@@ -3121,7 +3539,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoic3VwZXJhZG1pbiIsImVtYWlsIjoic3VwZXJhZG1pbkBtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFE2bWswMldnWk10Nkl3aGV0UnhjSXVTWmIyWGV4cVJyLy5QdGVjMTR5SVJ4emdqRUcuNEwuIiwicm9sZSI6IlNVUEVSQURNSU4iLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0zMVQxMjo0ODo1NS45OTVaIiwidXBkYXRlZF9hdCI6bnVsbCwiZGVsZXRlZF9hdCI6bnVsbH0sImlhdCI6MTcxNzE2MTAyNSwiZXhwIjoxNzE3MjQ3NDI1fQ._-G3v_Xv_Osy4OOHOCGPkTldDFJnvEhaRtGGmoADukU",
+									"value": "{{tokenSuperAdmin}}",
 									"type": "string"
 								}
 							]
@@ -3132,18 +3550,23 @@
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "name",
-									"value": "Ubah Mobil 4",
+									"key": "typeDriver",
+									"value": "With Driver",
 									"type": "text"
 								},
 								{
-									"key": "price",
-									"value": "5000",
+									"key": "plate",
+									"value": "BTW-1960",
 									"type": "text"
 								},
 								{
-									"key": "size",
-									"value": "Medium",
+									"key": "manufacture",
+									"value": "Honda",
+									"type": "text"
+								},
+								{
+									"key": "model",
+									"value": "Accord",
 									"type": "text"
 								},
 								{
@@ -3152,28 +3575,122 @@
 									"src": "/D:/Data Fachri/Pictures/663591.png"
 								},
 								{
-									"key": "start_rent",
-									"value": "2024-05-17T12:22:09.482Z",
+									"key": "rentPerDay",
+									"value": "500000",
 									"type": "text"
 								},
 								{
-									"key": "finish_rent",
-									"value": "2024-05-18T12:22:09.482Z",
+									"key": "capacity",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Silver finish interior door handles. 160-amp alternator. Tire pressure monitoring system (TPMS). Cloth covered headliner.",
+									"type": "text"
+								},
+								{
+									"key": "transmission",
+									"value": "Automatic",
 									"type": "text"
 								},
 								{
 									"key": "available",
-									"value": "false",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "Sedan",
+									"type": "text"
+								},
+								{
+									"key": "year",
+									"value": "2020",
+									"type": "text"
+								},
+								{
+									"key": "availableAt",
+									"value": "2024-06-13T23:19:09.025Z",
+									"type": "text"
+								},
+								{
+									"key": "options",
+									"value": "AM/FM Stereo",
+									"type": "text"
+								},
+								{
+									"key": "options",
+									"value": "Power Windows",
+									"type": "text"
+								},
+								{
+									"key": "options",
+									"value": "Power Locks",
+									"type": "text"
+								},
+								{
+									"key": "options",
+									"value": "Power Windows",
+									"type": "text"
+								},
+								{
+									"key": "options",
+									"value": "MP3 (Single Disc)",
+									"type": "text"
+								},
+								{
+									"key": "options",
+									"value": "A/C: Rear",
+									"type": "text"
+								},
+								{
+									"key": "specs",
+									"value": "Silver finish interior door handles",
+									"type": "text"
+								},
+								{
+									"key": "specs",
+									"value": "160-amp alternator",
+									"type": "text"
+								},
+								{
+									"key": "specs",
+									"value": "Tire pressure monitoring system (TPMS)",
+									"type": "text"
+								},
+								{
+									"key": "specs",
+									"value": "Cloth covered headliner",
+									"type": "text"
+								},
+								{
+									"key": "specs",
+									"value": "625-amp maintenance-free battery",
+									"type": "text"
+								},
+								{
+									"key": "specs",
+									"value": "Torsion beam rear suspension w/stabilizer bar",
+									"type": "text"
+								},
+								{
+									"key": "specs",
+									"value": "Impact-dissipating upper interior trim",
+									"type": "text"
+								},
+								{
+									"key": "specs",
+									"value": "Dual front 2-stage airbags -inc: passenger occupant classification system w/twin-chamber airbag",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "localhost:5000/api/cars/:id",
+							"raw": "{{baseUrl}}/api/cars/:id",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
 								"api",
 								"cars",
@@ -3182,8 +3699,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "4",
-									"description": "Cars Id"
+									"value": "4"
 								}
 							]
 						}
@@ -3198,48 +3714,147 @@
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "name",
-											"value": "Ubah Mobil 4",
+											"key": "typeDriver",
+											"value": "With Driver",
 											"type": "text"
 										},
 										{
-											"key": "price",
-											"value": "5000",
+											"key": "plate",
+											"value": "BTW-1960",
 											"type": "text"
 										},
 										{
-											"key": "size",
-											"value": "Medium",
+											"key": "manufacture",
+											"value": "Honda",
+											"type": "text"
+										},
+										{
+											"key": "model",
+											"value": "Accord",
 											"type": "text"
 										},
 										{
 											"key": "image",
 											"type": "file",
-											"src": "/D:/Data Fachri/Pictures/743487.jpg"
+											"src": "/D:/Data Fachri/Pictures/663591.png"
 										},
 										{
-											"key": "start_rent",
-											"value": "2024-05-17T12:22:09.482Z",
+											"key": "rentPerDay",
+											"value": "500000",
 											"type": "text"
 										},
 										{
-											"key": "finish_rent",
-											"value": "2024-05-18T12:22:09.482Z",
+											"key": "capacity",
+											"value": "4",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Silver finish interior door handles. 160-amp alternator. Tire pressure monitoring system (TPMS). Cloth covered headliner.",
+											"type": "text"
+										},
+										{
+											"key": "transmission",
+											"value": "Automatic",
 											"type": "text"
 										},
 										{
 											"key": "available",
-											"value": "false",
+											"value": "true",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "Sedan",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2020",
+											"type": "text"
+										},
+										{
+											"key": "availableAt",
+											"value": "2024-06-13T23:19:09.025Z",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "AM/FM Stereo",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "Power Windows",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "Power Locks",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "Power Windows",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "MP3 (Single Disc)",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "A/C: Rear",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Silver finish interior door handles",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "160-amp alternator",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Tire pressure monitoring system (TPMS)",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Cloth covered headliner",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "625-amp maintenance-free battery",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Torsion beam rear suspension w/stabilizer bar",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Impact-dissipating upper interior trim",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Dual front 2-stage airbags -inc: passenger occupant classification system w/twin-chamber airbag",
 											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "localhost:5000/api/cars/:id",
+									"raw": "{{baseUrl}}/api/cars/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -3248,8 +3863,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "4",
-											"description": "Cars Id"
+											"value": "4"
 										}
 									]
 								}
@@ -3261,6 +3875,10 @@
 								{
 									"key": "X-Powered-By",
 									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
 								},
 								{
 									"key": "Content-Type",
@@ -3276,7 +3894,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:11:08 GMT"
+									"value": "Thu, 13 Jun 2024 10:19:21 GMT"
 								},
 								{
 									"key": "Connection",
@@ -3299,48 +3917,147 @@
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "name",
-											"value": "Ubah Mobil 4",
+											"key": "typeDriver",
+											"value": "With Driver",
 											"type": "text"
 										},
 										{
-											"key": "price",
-											"value": "5000",
+											"key": "plate",
+											"value": "BTW-1960",
 											"type": "text"
 										},
 										{
-											"key": "size",
-											"value": "Medium",
+											"key": "manufacture",
+											"value": "Honda",
+											"type": "text"
+										},
+										{
+											"key": "model",
+											"value": "Accord",
 											"type": "text"
 										},
 										{
 											"key": "image",
 											"type": "file",
-											"src": "/D:/Data Fachri/Pictures/743487.jpg"
+											"src": "/D:/Data Fachri/Pictures/663591.png"
 										},
 										{
-											"key": "start_rent",
-											"value": "2024-05-17T12:22:09.482Z",
+											"key": "rentPerDay",
+											"value": "500000",
 											"type": "text"
 										},
 										{
-											"key": "finish_rent",
-											"value": "2024-05-18T12:22:09.482Z",
+											"key": "capacity",
+											"value": "4",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Silver finish interior door handles. 160-amp alternator. Tire pressure monitoring system (TPMS). Cloth covered headliner.",
+											"type": "text"
+										},
+										{
+											"key": "transmission",
+											"value": "Automatic",
 											"type": "text"
 										},
 										{
 											"key": "available",
-											"value": "false",
+											"value": "true",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "Sedan",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2020",
+											"type": "text"
+										},
+										{
+											"key": "availableAt",
+											"value": "2024-06-13T23:19:09.025Z",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "AM/FM Stereo",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "Power Windows",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "Power Locks",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "Power Windows",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "MP3 (Single Disc)",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "A/C: Rear",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Silver finish interior door handles",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "160-amp alternator",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Tire pressure monitoring system (TPMS)",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Cloth covered headliner",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "625-amp maintenance-free battery",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Torsion beam rear suspension w/stabilizer bar",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Impact-dissipating upper interior trim",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Dual front 2-stage airbags -inc: passenger occupant classification system w/twin-chamber airbag",
 											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "localhost:5000/api/cars/:id",
+									"raw": "{{baseUrl}}/api/cars/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -3349,8 +4066,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "10",
-											"description": "Cars Id"
+											"value": "10"
 										}
 									]
 								}
@@ -3362,6 +4078,10 @@
 								{
 									"key": "X-Powered-By",
 									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
 								},
 								{
 									"key": "Content-Type",
@@ -3377,7 +4097,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:11:27 GMT"
+									"value": "Thu, 13 Jun 2024 10:16:50 GMT"
 								},
 								{
 									"key": "Connection",
@@ -3392,7 +4112,7 @@
 							"body": "{\n    \"status\": false,\n    \"message\": \"Data not found\",\n    \"data\": {}\n}"
 						},
 						{
-							"name": "Required Field",
+							"name": "Required field",
 							"originalRequest": {
 								"method": "PUT",
 								"header": [],
@@ -3400,48 +4120,174 @@
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "name",
-											"value": "",
-											"type": "text"
+											"key": "typeDriver",
+											"value": "With Driver",
+											"type": "text",
+											"disabled": true
 										},
 										{
-											"key": "price",
-											"value": "",
-											"type": "text"
+											"key": "plate",
+											"value": "BTW-1960",
+											"type": "text",
+											"disabled": true
 										},
 										{
-											"key": "size",
-											"value": "",
-											"type": "text"
+											"key": "manufacture",
+											"value": "Honda",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "model",
+											"value": "Accord",
+											"type": "text",
+											"disabled": true
 										},
 										{
 											"key": "image",
 											"type": "file",
-											"src": []
+											"src": "/D:/Data Fachri/Pictures/663591.png",
+											"disabled": true
 										},
 										{
-											"key": "start_rent",
-											"value": "",
-											"type": "text"
+											"key": "rentPerDay",
+											"value": "500000",
+											"type": "text",
+											"disabled": true
 										},
 										{
-											"key": "finish_rent",
-											"value": "",
-											"type": "text"
+											"key": "capacity",
+											"value": "4",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "description",
+											"value": "Silver finish interior door handles. 160-amp alternator. Tire pressure monitoring system (TPMS). Cloth covered headliner.",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "transmission",
+											"value": "Automatic",
+											"type": "text",
+											"disabled": true
 										},
 										{
 											"key": "available",
-											"value": "",
-											"type": "text"
+											"value": "true",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "type",
+											"value": "Sedan",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "year",
+											"value": "2020",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "availableAt",
+											"value": "2024-06-13T23:19:09.025Z",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "options",
+											"value": "AM/FM Stereo",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "options",
+											"value": "Power Windows",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "options",
+											"value": "Power Locks",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "options",
+											"value": "Power Windows",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "options",
+											"value": "MP3 (Single Disc)",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "options",
+											"value": "A/C: Rear",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "specs",
+											"value": "Silver finish interior door handles",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "specs",
+											"value": "160-amp alternator",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "specs",
+											"value": "Tire pressure monitoring system (TPMS)",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "specs",
+											"value": "Cloth covered headliner",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "specs",
+											"value": "625-amp maintenance-free battery",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "specs",
+											"value": "Torsion beam rear suspension w/stabilizer bar",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "specs",
+											"value": "Impact-dissipating upper interior trim",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "specs",
+											"value": "Dual front 2-stage airbags -inc: passenger occupant classification system w/twin-chamber airbag",
+											"type": "text",
+											"disabled": true
 										}
 									]
 								},
 								"url": {
-									"raw": "localhost:5000/api/cars/:id",
+									"raw": "{{baseUrl}}/api/cars/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -3450,8 +4296,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "4",
-											"description": "Cars Id"
+											"value": "4"
 										}
 									]
 								}
@@ -3465,20 +4310,24 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
 								{
 									"key": "Content-Length",
-									"value": "459"
+									"value": "498"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"1cb-EQ1TvwIz0VQK8JJiVnJc7/BRaCE\""
+									"value": "W/\"1f2-+qUFgzpUkLAH+4FzIIKdooFbq6o\""
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:15:06 GMT"
+									"value": "Thu, 13 Jun 2024 10:17:30 GMT"
 								},
 								{
 									"key": "Connection",
@@ -3490,7 +4339,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": false,\n    \"message\": \"Validation Error\",\n    \"data\": {\n        \"validations\": [\n            \"name is a required field\",\n            \"price must be a `number` type, but the final value was: `NaN` (cast from the value `\\\"\\\"`).\",\n            \"size is a required field\",\n            \"image is a required field\",\n            \"start_rent must be a `date` type, but the final value was: `Invalid Date` (cast from the value `\\\"\\\"`).\",\n            \"finish_rent must be a `date` type, but the final value was: `Invalid Date` (cast from the value `\\\"\\\"`).\"\n        ]\n    }\n}"
+							"body": "{\n    \"status\": false,\n    \"message\": \"Validation Error\",\n    \"data\": {\n        \"validations\": [\n            \"typeDriver is a required field\",\n            \"plate is a required field\",\n            \"manufacture is a required field\",\n            \"model is a required field\",\n            \"image is a required field\",\n            \"rentPerDay is a required field\",\n            \"capacity is a required field\",\n            \"description is a required field\",\n            \"transmission is a required field\",\n            \"available is a required field\",\n            \"type is a required field\",\n            \"year is a required field\",\n            \"options is a required field\",\n            \"specs is a required field\"\n        ]\n    }\n}"
 						},
 						{
 							"name": "Unauthorized",
@@ -3501,48 +4350,147 @@
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "name",
-											"value": "Ubah Mobil 4",
+											"key": "typeDriver",
+											"value": "With Driver",
 											"type": "text"
 										},
 										{
-											"key": "price",
-											"value": "5000",
+											"key": "plate",
+											"value": "BTW-1960",
 											"type": "text"
 										},
 										{
-											"key": "size",
-											"value": "Medium",
+											"key": "manufacture",
+											"value": "Honda",
+											"type": "text"
+										},
+										{
+											"key": "model",
+											"value": "Accord",
 											"type": "text"
 										},
 										{
 											"key": "image",
 											"type": "file",
-											"src": "/D:/Data Fachri/Pictures/11ed9758-2c66-4757-bdcb-be287eb6d926.jpg"
+											"src": "/D:/Data Fachri/Pictures/663591.png"
 										},
 										{
-											"key": "start_rent",
-											"value": "2024-05-17T12:22:09.482Z",
+											"key": "rentPerDay",
+											"value": "500000",
 											"type": "text"
 										},
 										{
-											"key": "finish_rent",
-											"value": "2024-05-18T12:22:09.482Z",
+											"key": "capacity",
+											"value": "4",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Silver finish interior door handles. 160-amp alternator. Tire pressure monitoring system (TPMS). Cloth covered headliner.",
+											"type": "text"
+										},
+										{
+											"key": "transmission",
+											"value": "Automatic",
 											"type": "text"
 										},
 										{
 											"key": "available",
-											"value": "false",
+											"value": "true",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "Sedan",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2020",
+											"type": "text"
+										},
+										{
+											"key": "availableAt",
+											"value": "2024-06-13T23:19:09.025Z",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "AM/FM Stereo",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "Power Windows",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "Power Locks",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "Power Windows",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "MP3 (Single Disc)",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "A/C: Rear",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Silver finish interior door handles",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "160-amp alternator",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Tire pressure monitoring system (TPMS)",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Cloth covered headliner",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "625-amp maintenance-free battery",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Torsion beam rear suspension w/stabilizer bar",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Impact-dissipating upper interior trim",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Dual front 2-stage airbags -inc: passenger occupant classification system w/twin-chamber airbag",
 											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "localhost:5000/api/cars/:id",
+									"raw": "{{baseUrl}}/api/cars/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -3551,8 +4499,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "4",
-											"description": "Cars Id"
+											"value": "4"
 										}
 									]
 								}
@@ -3564,6 +4511,10 @@
 								{
 									"key": "X-Powered-By",
 									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
 								},
 								{
 									"key": "Content-Type",
@@ -3579,7 +4530,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:16:09 GMT"
+									"value": "Thu, 13 Jun 2024 10:18:25 GMT"
 								},
 								{
 									"key": "Connection",
@@ -3602,48 +4553,147 @@
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "name",
-											"value": "Ubah Mobil 4",
+											"key": "typeDriver",
+											"value": "With Driver",
 											"type": "text"
 										},
 										{
-											"key": "price",
-											"value": "5000",
+											"key": "plate",
+											"value": "BTW-1960",
 											"type": "text"
 										},
 										{
-											"key": "size",
-											"value": "Medium",
+											"key": "manufacture",
+											"value": "Honda",
+											"type": "text"
+										},
+										{
+											"key": "model",
+											"value": "Accord",
 											"type": "text"
 										},
 										{
 											"key": "image",
 											"type": "file",
-											"src": "/D:/Data Fachri/Pictures/11ed9758-2c66-4757-bdcb-be287eb6d926.jpg"
+											"src": "/D:/Data Fachri/Pictures/663591.png"
 										},
 										{
-											"key": "start_rent",
-											"value": "2024-05-17T12:22:09.482Z",
+											"key": "rentPerDay",
+											"value": "500000",
 											"type": "text"
 										},
 										{
-											"key": "finish_rent",
-											"value": "2024-05-18T12:22:09.482Z",
+											"key": "capacity",
+											"value": "4",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Silver finish interior door handles. 160-amp alternator. Tire pressure monitoring system (TPMS). Cloth covered headliner.",
+											"type": "text"
+										},
+										{
+											"key": "transmission",
+											"value": "Automatic",
 											"type": "text"
 										},
 										{
 											"key": "available",
-											"value": "false",
+											"value": "true",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "Sedan",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2020",
+											"type": "text"
+										},
+										{
+											"key": "availableAt",
+											"value": "2024-06-13T23:19:09.025Z",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "AM/FM Stereo",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "Power Windows",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "Power Locks",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "Power Windows",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "MP3 (Single Disc)",
+											"type": "text"
+										},
+										{
+											"key": "options",
+											"value": "A/C: Rear",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Silver finish interior door handles",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "160-amp alternator",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Tire pressure monitoring system (TPMS)",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Cloth covered headliner",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "625-amp maintenance-free battery",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Torsion beam rear suspension w/stabilizer bar",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Impact-dissipating upper interior trim",
+											"type": "text"
+										},
+										{
+											"key": "specs",
+											"value": "Dual front 2-stage airbags -inc: passenger occupant classification system w/twin-chamber airbag",
 											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "localhost:5000/api/cars/:id",
+									"raw": "{{baseUrl}}/api/cars/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -3652,8 +4702,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "4",
-											"description": "Cars Id"
+											"value": "4"
 										}
 									]
 								}
@@ -3665,6 +4714,10 @@
 								{
 									"key": "X-Powered-By",
 									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
 								},
 								{
 									"key": "Content-Type",
@@ -3680,7 +4733,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:16:29 GMT"
+									"value": "Thu, 13 Jun 2024 10:18:42 GMT"
 								},
 								{
 									"key": "Connection",
@@ -3704,7 +4757,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoic3VwZXJhZG1pbiIsImVtYWlsIjoic3VwZXJhZG1pbkBtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFE2bWswMldnWk10Nkl3aGV0UnhjSXVTWmIyWGV4cVJyLy5QdGVjMTR5SVJ4emdqRUcuNEwuIiwicm9sZSI6IlNVUEVSQURNSU4iLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0zMVQxMjo0ODo1NS45OTVaIiwidXBkYXRlZF9hdCI6bnVsbCwiZGVsZXRlZF9hdCI6bnVsbH0sImlhdCI6MTcxNzE2MTAyNSwiZXhwIjoxNzE3MjQ3NDI1fQ._-G3v_Xv_Osy4OOHOCGPkTldDFJnvEhaRtGGmoADukU",
+									"value": "{{tokenSuperAdmin}}",
 									"type": "string"
 								}
 							]
@@ -3712,11 +4765,10 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "localhost:5000/api/cars/:id",
+							"raw": "{{baseUrl}}/api/cars/:id",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
 								"api",
 								"cars",
@@ -3725,8 +4777,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "4",
-									"description": "Cars Id"
+									"value": "2"
 								}
 							]
 						}
@@ -3738,11 +4789,10 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/cars/:id",
+									"raw": "{{baseUrl}}/api/cars/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -3751,8 +4801,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "4",
-											"description": "Cars Id"
+											"value": "2"
 										}
 									]
 								}
@@ -3764,6 +4813,10 @@
 								{
 									"key": "X-Powered-By",
 									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
 								},
 								{
 									"key": "Content-Type",
@@ -3779,7 +4832,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:22:08 GMT"
+									"value": "Thu, 13 Jun 2024 10:22:59 GMT"
 								},
 								{
 									"key": "Connection",
@@ -3799,11 +4852,10 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/cars/:id",
+									"raw": "{{baseUrl}}/api/cars/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -3812,8 +4864,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "10",
-											"description": "Cars Id"
+											"value": "10"
 										}
 									]
 								}
@@ -3825,6 +4876,10 @@
 								{
 									"key": "X-Powered-By",
 									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
 								},
 								{
 									"key": "Content-Type",
@@ -3840,7 +4895,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:22:34 GMT"
+									"value": "Thu, 13 Jun 2024 10:21:54 GMT"
 								},
 								{
 									"key": "Connection",
@@ -3860,11 +4915,10 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/cars/:id",
+									"raw": "{{baseUrl}}/api/cars/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -3873,8 +4927,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "4",
-											"description": "Cars Id"
+											"value": "2"
 										}
 									]
 								}
@@ -3886,6 +4939,10 @@
 								{
 									"key": "X-Powered-By",
 									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
 								},
 								{
 									"key": "Content-Type",
@@ -3901,7 +4958,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:23:09 GMT"
+									"value": "Thu, 13 Jun 2024 10:22:12 GMT"
 								},
 								{
 									"key": "Connection",
@@ -3921,11 +4978,10 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/cars/:id",
+									"raw": "{{baseUrl}}/api/cars/:id",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -3934,8 +4990,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "4",
-											"description": "Cars Id"
+											"value": "2"
 										}
 									]
 								}
@@ -3947,6 +5002,10 @@
 								{
 									"key": "X-Powered-By",
 									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
 								},
 								{
 									"key": "Content-Type",
@@ -3962,7 +5021,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:23:32 GMT"
+									"value": "Thu, 13 Jun 2024 10:22:33 GMT"
 								},
 								{
 									"key": "Connection",
@@ -3987,11 +5046,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:5000/api/cars/list-available",
+							"raw": "{{baseUrl}}/api/cars/list-available",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
 								"api",
 								"cars",
@@ -4006,11 +5064,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/cars/list-available",
+									"raw": "{{baseUrl}}/api/cars/list-available",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -4027,20 +5084,24 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
 								{
 									"key": "Content-Length",
-									"value": "984"
+									"value": "3007"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"3d8-Tt9ju3Wgb9osPESC3E59NIlAbIo\""
+									"value": "W/\"bbf-dNl0VxIt8OMrHao1QS++F+fp8yk\""
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:42:00 GMT"
+									"value": "Thu, 13 Jun 2024 10:24:20 GMT"
 								},
 								{
 									"key": "Connection",
@@ -4052,7 +5113,315 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": true,\n    \"message\": \"Success Get All Cars Available\",\n    \"total\": 3,\n    \"data\": {\n        \"cars\": [\n            {\n                \"id\": 3,\n                \"name\": \"Mobil 3\",\n                \"price\": 900,\n                \"size\": \"Large\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801963/challenge5/ifpfouew8d4wlv8zm3in.jpg\",\n                \"start_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"finish_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"available\": true,\n                \"created_at\": \"2024-05-31T16:34:04.180Z\"\n            },\n            {\n                \"id\": 2,\n                \"name\": \"Mobil 2\",\n                \"price\": 500,\n                \"size\": \"Medium\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801963/challenge5/wjkgvj4akcrenh1mmwec.jpg\",\n                \"start_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"finish_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"available\": true,\n                \"created_at\": \"2024-05-31T16:34:04.180Z\"\n            },\n            {\n                \"id\": 1,\n                \"name\": \"Mobil 1\",\n                \"price\": 100,\n                \"size\": \"Small\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801964/challenge5/hoqqtv26r8qgv46jexlm.jpg\",\n                \"start_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"finish_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"available\": true,\n                \"created_at\": \"2024-05-31T16:34:04.180Z\"\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"status\": true,\n    \"message\": \"Success Get All Cars Available\",\n    \"total\": 3,\n    \"data\": {\n        \"cars\": [\n            {\n                \"id\": 4,\n                \"typeDriver\": \"With Driver\",\n                \"plate\": \"BTW-1960\",\n                \"manufacture\": \"Honda\",\n                \"model\": \"Accord\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1718273959/web_bcr_cars/rrlfgpmjq0me6rss5tla.png\",\n                \"rentPerDay\": 500000,\n                \"capacity\": 4,\n                \"description\": \"Silver finish interior door handles. 160-amp alternator. Tire pressure monitoring system (TPMS). Cloth covered headliner.\",\n                \"transmission\": \"Automatic\",\n                \"available\": true,\n                \"type\": \"Sedan\",\n                \"year\": 2020,\n                \"availableAt\": \"2024-06-13T23:19:09.025Z\",\n                \"options\": [\n                    \"AM/FM Stereo\",\n                    \"Power Windows\",\n                    \"Power Locks\",\n                    \"Power Windows\",\n                    \"MP3 (Single Disc)\",\n                    \"A/C: Rear\"\n                ],\n                \"specs\": [\n                    \"Silver finish interior door handles\",\n                    \"160-amp alternator\",\n                    \"Tire pressure monitoring system (TPMS)\",\n                    \"Cloth covered headliner\",\n                    \"625-amp maintenance-free battery\",\n                    \"Torsion beam rear suspension w/stabilizer bar\",\n                    \"Impact-dissipating upper interior trim\",\n                    \"Dual front 2-stage airbags -inc: passenger occupant classification system w/twin-chamber airbag\"\n                ],\n                \"created_at\": \"2024-06-13T10:07:58.701Z\",\n                \"updated_at\": \"2024-06-13T10:19:17.354Z\",\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 3,\n                \"typeDriver\": \"Without Driver\",\n                \"plate\": \"OSL-4224\",\n                \"manufacture\": \"Lincoln\",\n                \"model\": \"MKZ\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801963/challenge5/ifpfouew8d4wlv8zm3in.jpg\",\n                \"rentPerDay\": 900000,\n                \"capacity\": 6,\n                \"description\": \"Driver & front passenger map pockets. Direct-type tire pressure monitor system. Cargo area lamp. Glove box lamp.\",\n                \"transmission\": \"Automanual\",\n                \"available\": true,\n                \"type\": \"Sedan\",\n                \"year\": 2021,\n                \"availableAt\": \"2024-06-13T09:39:04.413Z\",\n                \"options\": [\n                    \"Bucket Seats\",\n                    \"Airbag: Passenger\",\n                    \"Airbag: Driver\",\n                    \"Power Seats\",\n                    \"Airbag: Side\",\n                    \"Antilock Brakes\",\n                    \"CD (Multi Disc)\"\n                ],\n                \"specs\": [\n                    \"Driver & front passenger map pockets\",\n                    \"Direct-type tire pressure monitor system\",\n                    \"Cargo area lamp\",\n                    \"Glove box lamp\",\n                    \"Silver finish interior door handles\",\n                    \"Driver & front passenger advanced multistage airbags w/occupant sensors\",\n                    \"Silver accent IP trim finisher -inc: silver shifter finisher\",\n                    \"Fasten seat belt warning light/chime\"\n                ],\n                \"created_at\": \"2024-06-13T09:39:04.413Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 1,\n                \"typeDriver\": \"With Driver\",\n                \"plate\": \"DBH-3491\",\n                \"manufacture\": \"Ford\",\n                \"model\": \"F150\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801964/challenge5/hoqqtv26r8qgv46jexlm.jpg\",\n                \"rentPerDay\": 200000,\n                \"capacity\": 2,\n                \"description\": \"Brake assist. Leather-wrapped shift knob. Glove box lamp. Air conditioning w/in-cabin microfilter.\",\n                \"transmission\": \"Automatic\",\n                \"available\": true,\n                \"type\": \"Sedan\",\n                \"year\": 2022,\n                \"availableAt\": \"2024-06-13T09:39:04.413Z\",\n                \"options\": [\n                    \"Cruise Control\",\n                    \"Tinted Glass\",\n                    \"Tinted Glass\",\n                    \"Tinted Glass\",\n                    \"AM/FM Stereo\"\n                ],\n                \"specs\": [\n                    \"Brake assist\",\n                    \"Leather-wrapped shift knob\",\n                    \"Glove box lamp\",\n                    \"Air conditioning w/in-cabin microfilter\",\n                    \"Body color folding remote-controlled pwr mirrors\",\n                    \"Dual-stage front airbags w/occupant classification system\"\n                ],\n                \"created_at\": \"2024-06-13T09:39:04.413Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Filter All Cars Available",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/cars/list-available?typeDriver=Without Driver&date=2024-06-08&pickTime=08:00&totalPassenger=2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cars",
+								"list-available"
+							],
+							"query": [
+								{
+									"key": "typeDriver",
+									"value": "Without Driver"
+								},
+								{
+									"key": "date",
+									"value": "2024-06-08"
+								},
+								{
+									"key": "pickTime",
+									"value": "08:00"
+								},
+								{
+									"key": "totalPassenger",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success get filter all cars available",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/cars/list-available?typeDriver=With Driver&date=2024-06-08&pickTime=08:00&totalPassenger=2",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"cars",
+										"list-available"
+									],
+									"query": [
+										{
+											"key": "typeDriver",
+											"value": "With Driver"
+										},
+										{
+											"key": "date",
+											"value": "2024-06-08"
+										},
+										{
+											"key": "pickTime",
+											"value": "08:00"
+										},
+										{
+											"key": "totalPassenger",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1989"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"7c5-TCfVNDW4PhvTU0O/PK60+bKfcAI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 13 Jun 2024 10:42:13 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Success Get Filter All Cars Available\",\n    \"total\": 2,\n    \"data\": {\n        \"cars\": [\n            {\n                \"id\": 1,\n                \"typeDriver\": \"With Driver\",\n                \"plate\": \"DBH-3491\",\n                \"manufacture\": \"Ford\",\n                \"model\": \"F150\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801964/challenge5/hoqqtv26r8qgv46jexlm.jpg\",\n                \"rentPerDay\": 200000,\n                \"capacity\": 2,\n                \"description\": \"Brake assist. Leather-wrapped shift knob. Glove box lamp. Air conditioning w/in-cabin microfilter.\",\n                \"transmission\": \"Automatic\",\n                \"available\": true,\n                \"type\": \"Sedan\",\n                \"year\": 2022,\n                \"availableAt\": \"2024-06-13T09:39:04.413Z\",\n                \"options\": [\n                    \"Cruise Control\",\n                    \"Tinted Glass\",\n                    \"Tinted Glass\",\n                    \"Tinted Glass\",\n                    \"AM/FM Stereo\"\n                ],\n                \"specs\": [\n                    \"Brake assist\",\n                    \"Leather-wrapped shift knob\",\n                    \"Glove box lamp\",\n                    \"Air conditioning w/in-cabin microfilter\",\n                    \"Body color folding remote-controlled pwr mirrors\",\n                    \"Dual-stage front airbags w/occupant classification system\"\n                ],\n                \"created_at\": \"2024-06-13T09:39:04.413Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null\n            },\n            {\n                \"id\": 4,\n                \"typeDriver\": \"With Driver\",\n                \"plate\": \"BTW-1960\",\n                \"manufacture\": \"Honda\",\n                \"model\": \"Accord\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1718273959/web_bcr_cars/rrlfgpmjq0me6rss5tla.png\",\n                \"rentPerDay\": 500000,\n                \"capacity\": 4,\n                \"description\": \"Silver finish interior door handles. 160-amp alternator. Tire pressure monitoring system (TPMS). Cloth covered headliner.\",\n                \"transmission\": \"Automatic\",\n                \"available\": true,\n                \"type\": \"Sedan\",\n                \"year\": 2020,\n                \"availableAt\": \"2024-06-13T23:19:09.025Z\",\n                \"options\": [\n                    \"AM/FM Stereo\",\n                    \"Power Windows\",\n                    \"Power Locks\",\n                    \"Power Windows\",\n                    \"MP3 (Single Disc)\",\n                    \"A/C: Rear\"\n                ],\n                \"specs\": [\n                    \"Silver finish interior door handles\",\n                    \"160-amp alternator\",\n                    \"Tire pressure monitoring system (TPMS)\",\n                    \"Cloth covered headliner\",\n                    \"625-amp maintenance-free battery\",\n                    \"Torsion beam rear suspension w/stabilizer bar\",\n                    \"Impact-dissipating upper interior trim\",\n                    \"Dual front 2-stage airbags -inc: passenger occupant classification system w/twin-chamber airbag\"\n                ],\n                \"created_at\": \"2024-06-13T10:07:58.701Z\",\n                \"updated_at\": \"2024-06-13T10:19:17.354Z\",\n                \"deleted_at\": null\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "Required field",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/cars/list-available?totalPassenger=5",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"cars",
+										"list-available"
+									],
+									"query": [
+										{
+											"key": "typeDriver",
+											"value": "Without Driver",
+											"disabled": true
+										},
+										{
+											"key": "date",
+											"value": "2024-06-09",
+											"disabled": true
+										},
+										{
+											"key": "pickTime",
+											"value": "08:00",
+											"disabled": true
+										},
+										{
+											"key": "totalPassenger",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "161"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"a1-9Cb9qtaatiLbxf4RTbLPa9Kmjm8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 13 Jun 2024 10:27:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": false,\n    \"message\": \"Validation Error\",\n    \"data\": {\n        \"validations\": [\n            \"typeDriver is a required field\",\n            \"date is a required field\",\n            \"pickTime is a required field\"\n        ]\n    }\n}"
+						},
+						{
+							"name": "Data not found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/cars/list-available?typeDriver=With Driver&date=2024-06-15&pickTime=08:00&totalPassenger=2",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"cars",
+										"list-available"
+									],
+									"query": [
+										{
+											"key": "typeDriver",
+											"value": "With Driver"
+										},
+										{
+											"key": "date",
+											"value": "2024-06-15"
+										},
+										{
+											"key": "pickTime",
+											"value": "08:00"
+										},
+										{
+											"key": "totalPassenger",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "53"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"35-LKNFUH8XzYbdETOwaUhwxt3G2pQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 13 Jun 2024 10:43:19 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": false,\n    \"message\": \"Data not found\",\n    \"data\": {}\n}"
 						}
 					]
 				},
@@ -4067,7 +5436,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoic3VwZXJhZG1pbiIsImVtYWlsIjoic3VwZXJhZG1pbkBtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFE2bWswMldnWk10Nkl3aGV0UnhjSXVTWmIyWGV4cVJyLy5QdGVjMTR5SVJ4emdqRUcuNEwuIiwicm9sZSI6IlNVUEVSQURNSU4iLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0zMVQxMjo0ODo1NS45OTVaIiwidXBkYXRlZF9hdCI6bnVsbCwiZGVsZXRlZF9hdCI6bnVsbH0sImlhdCI6MTcxNzE2MTAyNSwiZXhwIjoxNzE3MjQ3NDI1fQ._-G3v_Xv_Osy4OOHOCGPkTldDFJnvEhaRtGGmoADukU",
+									"value": "{{tokenSuperAdmin}}",
 									"type": "string"
 								}
 							]
@@ -4079,11 +5448,10 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "localhost:5000/api/cars/logs",
+							"raw": "{{baseUrl}}/api/cars/logs",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
 								"api",
 								"cars",
@@ -4102,11 +5470,10 @@
 									"formdata": []
 								},
 								"url": {
-									"raw": "localhost:5000/api/cars/logs",
+									"raw": "{{baseUrl}}/api/cars/logs",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -4123,20 +5490,24 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
 								{
 									"key": "Content-Length",
-									"value": "2356"
+									"value": "4704"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"934-EfN61uKjE3ehA2GLO5G5gXRK0No\""
+									"value": "W/\"1260-T4FUMGutV9F/NeLkub3cC5CuOqI\""
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:42:25 GMT"
+									"value": "Thu, 13 Jun 2024 10:46:08 GMT"
 								},
 								{
 									"key": "Connection",
@@ -4148,7 +5519,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": true,\n    \"message\": \"Success Get All Cars Logs\",\n    \"total\": 4,\n    \"data\": {\n        \"cars\": [\n            {\n                \"id\": 4,\n                \"name\": \"Ubah Mobil 4\",\n                \"price\": 5000,\n                \"size\": \"Medium\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1717173688/web_bcr_cars/x5xqtghg0p2ysunbchpo.png\",\n                \"start_rent\": \"2024-05-17T12:22:09.482Z\",\n                \"finish_rent\": \"2024-05-18T12:22:09.482Z\",\n                \"available\": false,\n                \"created_at\": \"2024-05-31T16:40:36.081Z\",\n                \"updated_at\": \"2024-05-31T16:41:27.044Z\",\n                \"deleted_at\": \"2024-05-31T16:41:52.735Z\",\n                \"carsLogs\": [\n                    {\n                        \"action\": \"DELETE\",\n                        \"time_log\": \"2024-05-31T16:41:52.734Z\",\n                        \"users\": {\n                            \"name\": \"superadmin\",\n                            \"email\": \"superadmin@mail.com\",\n                            \"role\": \"SUPERADMIN\"\n                        }\n                    },\n                    {\n                        \"action\": \"UPDATE\",\n                        \"time_log\": \"2024-05-31T16:41:27.044Z\",\n                        \"users\": {\n                            \"name\": \"superadmin\",\n                            \"email\": \"superadmin@mail.com\",\n                            \"role\": \"SUPERADMIN\"\n                        }\n                    },\n                    {\n                        \"action\": \"INSERT\",\n                        \"time_log\": \"2024-05-31T16:40:36.081Z\",\n                        \"users\": {\n                            \"name\": \"superadmin\",\n                            \"email\": \"superadmin@mail.com\",\n                            \"role\": \"SUPERADMIN\"\n                        }\n                    }\n                ]\n            },\n            {\n                \"id\": 3,\n                \"name\": \"Mobil 3\",\n                \"price\": 900,\n                \"size\": \"Large\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801963/challenge5/ifpfouew8d4wlv8zm3in.jpg\",\n                \"start_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"finish_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"available\": true,\n                \"created_at\": \"2024-05-31T16:34:04.180Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null,\n                \"carsLogs\": [\n                    {\n                        \"action\": \"INSERT\",\n                        \"time_log\": \"2024-05-31T16:34:04.407Z\",\n                        \"users\": {\n                            \"name\": \"superadmin\",\n                            \"email\": \"superadmin@mail.com\",\n                            \"role\": \"SUPERADMIN\"\n                        }\n                    }\n                ]\n            },\n            {\n                \"id\": 2,\n                \"name\": \"Mobil 2\",\n                \"price\": 500,\n                \"size\": \"Medium\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801963/challenge5/wjkgvj4akcrenh1mmwec.jpg\",\n                \"start_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"finish_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"available\": true,\n                \"created_at\": \"2024-05-31T16:34:04.180Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null,\n                \"carsLogs\": [\n                    {\n                        \"action\": \"INSERT\",\n                        \"time_log\": \"2024-05-31T16:34:04.407Z\",\n                        \"users\": {\n                            \"name\": \"superadmin\",\n                            \"email\": \"superadmin@mail.com\",\n                            \"role\": \"SUPERADMIN\"\n                        }\n                    }\n                ]\n            },\n            {\n                \"id\": 1,\n                \"name\": \"Mobil 1\",\n                \"price\": 100,\n                \"size\": \"Small\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801964/challenge5/hoqqtv26r8qgv46jexlm.jpg\",\n                \"start_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"finish_rent\": \"2024-05-31T16:34:04.180Z\",\n                \"available\": true,\n                \"created_at\": \"2024-05-31T16:34:04.180Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null,\n                \"carsLogs\": [\n                    {\n                        \"action\": \"INSERT\",\n                        \"time_log\": \"2024-05-31T16:34:04.407Z\",\n                        \"users\": {\n                            \"name\": \"superadmin\",\n                            \"email\": \"superadmin@mail.com\",\n                            \"role\": \"SUPERADMIN\"\n                        }\n                    }\n                ]\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"status\": true,\n    \"message\": \"Success Get All Cars Logs\",\n    \"total\": 4,\n    \"data\": {\n        \"cars\": [\n            {\n                \"id\": 4,\n                \"typeDriver\": \"With Driver\",\n                \"plate\": \"BTW-1960\",\n                \"manufacture\": \"Honda\",\n                \"model\": \"Accord\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1718273959/web_bcr_cars/rrlfgpmjq0me6rss5tla.png\",\n                \"rentPerDay\": 500000,\n                \"capacity\": 4,\n                \"description\": \"Silver finish interior door handles. 160-amp alternator. Tire pressure monitoring system (TPMS). Cloth covered headliner.\",\n                \"transmission\": \"Automatic\",\n                \"available\": true,\n                \"type\": \"Sedan\",\n                \"year\": 2020,\n                \"availableAt\": \"2024-06-13T23:19:09.025Z\",\n                \"options\": [\n                    \"AM/FM Stereo\",\n                    \"Power Windows\",\n                    \"Power Locks\",\n                    \"Power Windows\",\n                    \"MP3 (Single Disc)\",\n                    \"A/C: Rear\"\n                ],\n                \"specs\": [\n                    \"Silver finish interior door handles\",\n                    \"160-amp alternator\",\n                    \"Tire pressure monitoring system (TPMS)\",\n                    \"Cloth covered headliner\",\n                    \"625-amp maintenance-free battery\",\n                    \"Torsion beam rear suspension w/stabilizer bar\",\n                    \"Impact-dissipating upper interior trim\",\n                    \"Dual front 2-stage airbags -inc: passenger occupant classification system w/twin-chamber airbag\"\n                ],\n                \"created_at\": \"2024-06-13T10:07:58.701Z\",\n                \"updated_at\": \"2024-06-13T10:19:17.354Z\",\n                \"deleted_at\": null,\n                \"carsLogs\": [\n                    {\n                        \"action\": \"UPDATE\",\n                        \"time_log\": \"2024-06-13T10:19:17.354Z\",\n                        \"users\": {\n                            \"name\": \"superadmin\",\n                            \"email\": \"superadmin@mail.com\",\n                            \"role\": \"SUPERADMIN\"\n                        }\n                    },\n                    {\n                        \"action\": \"INSERT\",\n                        \"time_log\": \"2024-06-13T10:07:58.701Z\",\n                        \"users\": {\n                            \"name\": \"superadmin\",\n                            \"email\": \"superadmin@mail.com\",\n                            \"role\": \"SUPERADMIN\"\n                        }\n                    }\n                ]\n            },\n            {\n                \"id\": 3,\n                \"typeDriver\": \"Without Driver\",\n                \"plate\": \"OSL-4224\",\n                \"manufacture\": \"Lincoln\",\n                \"model\": \"MKZ\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801963/challenge5/ifpfouew8d4wlv8zm3in.jpg\",\n                \"rentPerDay\": 900000,\n                \"capacity\": 6,\n                \"description\": \"Driver & front passenger map pockets. Direct-type tire pressure monitor system. Cargo area lamp. Glove box lamp.\",\n                \"transmission\": \"Automanual\",\n                \"available\": true,\n                \"type\": \"Sedan\",\n                \"year\": 2021,\n                \"availableAt\": \"2024-06-13T09:39:04.413Z\",\n                \"options\": [\n                    \"Bucket Seats\",\n                    \"Airbag: Passenger\",\n                    \"Airbag: Driver\",\n                    \"Power Seats\",\n                    \"Airbag: Side\",\n                    \"Antilock Brakes\",\n                    \"CD (Multi Disc)\"\n                ],\n                \"specs\": [\n                    \"Driver & front passenger map pockets\",\n                    \"Direct-type tire pressure monitor system\",\n                    \"Cargo area lamp\",\n                    \"Glove box lamp\",\n                    \"Silver finish interior door handles\",\n                    \"Driver & front passenger advanced multistage airbags w/occupant sensors\",\n                    \"Silver accent IP trim finisher -inc: silver shifter finisher\",\n                    \"Fasten seat belt warning light/chime\"\n                ],\n                \"created_at\": \"2024-06-13T09:39:04.413Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null,\n                \"carsLogs\": [\n                    {\n                        \"action\": \"INSERT\",\n                        \"time_log\": \"2024-06-13T09:39:04.662Z\",\n                        \"users\": {\n                            \"name\": \"superadmin\",\n                            \"email\": \"superadmin@mail.com\",\n                            \"role\": \"SUPERADMIN\"\n                        }\n                    }\n                ]\n            },\n            {\n                \"id\": 2,\n                \"typeDriver\": \"With Driver\",\n                \"plate\": \"WXB-3984\",\n                \"manufacture\": \"BMW\",\n                \"model\": \"X5\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801963/challenge5/wjkgvj4akcrenh1mmwec.jpg\",\n                \"rentPerDay\": 800000,\n                \"capacity\": 6,\n                \"description\": \"Rear passenger map pockets. Electrochromic rearview mirror. Dual chrome exhaust tips. Locking glove box.\",\n                \"transmission\": \"Automatic\",\n                \"available\": false,\n                \"type\": \"Convertible\",\n                \"year\": 2019,\n                \"availableAt\": \"2024-06-13T09:39:04.413Z\",\n                \"options\": [\n                    \"Keyless Entry\",\n                    \"Power Windows\",\n                    \"MP3 (Single Disc)\",\n                    \"CD (Multi Disc)\",\n                    \"Navigation\"\n                ],\n                \"specs\": [\n                    \"Rear passenger map pockets\",\n                    \"Electrochromic rearview mirror\",\n                    \"Dual chrome exhaust tips\",\n                    \"Locking glove box\",\n                    \"Pwr front vented disc/rear drum brakes\"\n                ],\n                \"created_at\": \"2024-06-13T09:39:04.413Z\",\n                \"updated_at\": null,\n                \"deleted_at\": \"2024-06-13T10:22:59.429Z\",\n                \"carsLogs\": [\n                    {\n                        \"action\": \"DELETE\",\n                        \"time_log\": \"2024-06-13T10:22:59.428Z\",\n                        \"users\": {\n                            \"name\": \"superadmin\",\n                            \"email\": \"superadmin@mail.com\",\n                            \"role\": \"SUPERADMIN\"\n                        }\n                    },\n                    {\n                        \"action\": \"INSERT\",\n                        \"time_log\": \"2024-06-13T09:39:04.662Z\",\n                        \"users\": {\n                            \"name\": \"superadmin\",\n                            \"email\": \"superadmin@mail.com\",\n                            \"role\": \"SUPERADMIN\"\n                        }\n                    }\n                ]\n            },\n            {\n                \"id\": 1,\n                \"typeDriver\": \"With Driver\",\n                \"plate\": \"DBH-3491\",\n                \"manufacture\": \"Ford\",\n                \"model\": \"F150\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1715801964/challenge5/hoqqtv26r8qgv46jexlm.jpg\",\n                \"rentPerDay\": 200000,\n                \"capacity\": 2,\n                \"description\": \"Brake assist. Leather-wrapped shift knob. Glove box lamp. Air conditioning w/in-cabin microfilter.\",\n                \"transmission\": \"Automatic\",\n                \"available\": true,\n                \"type\": \"Sedan\",\n                \"year\": 2022,\n                \"availableAt\": \"2024-06-13T09:39:04.413Z\",\n                \"options\": [\n                    \"Cruise Control\",\n                    \"Tinted Glass\",\n                    \"Tinted Glass\",\n                    \"Tinted Glass\",\n                    \"AM/FM Stereo\"\n                ],\n                \"specs\": [\n                    \"Brake assist\",\n                    \"Leather-wrapped shift knob\",\n                    \"Glove box lamp\",\n                    \"Air conditioning w/in-cabin microfilter\",\n                    \"Body color folding remote-controlled pwr mirrors\",\n                    \"Dual-stage front airbags w/occupant classification system\"\n                ],\n                \"created_at\": \"2024-06-13T09:39:04.413Z\",\n                \"updated_at\": null,\n                \"deleted_at\": null,\n                \"carsLogs\": [\n                    {\n                        \"action\": \"INSERT\",\n                        \"time_log\": \"2024-06-13T09:39:04.662Z\",\n                        \"users\": {\n                            \"name\": \"superadmin\",\n                            \"email\": \"superadmin@mail.com\",\n                            \"role\": \"SUPERADMIN\"\n                        }\n                    }\n                ]\n            }\n        ]\n    }\n}"
 						},
 						{
 							"name": "Unauthorized",
@@ -4160,11 +5531,10 @@
 									"formdata": []
 								},
 								"url": {
-									"raw": "localhost:5000/api/cars/logs",
+									"raw": "{{baseUrl}}/api/cars/logs",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -4181,6 +5551,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -4194,7 +5568,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 15:31:00 GMT"
+									"value": "Thu, 13 Jun 2024 10:46:43 GMT"
 								},
 								{
 									"key": "Connection",
@@ -4218,11 +5592,10 @@
 									"formdata": []
 								},
 								"url": {
-									"raw": "localhost:5000/api/cars/logs",
+									"raw": "{{baseUrl}}/api/cars/logs",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -4239,6 +5612,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -4252,7 +5629,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 15:31:18 GMT"
+									"value": "Thu, 13 Jun 2024 10:46:58 GMT"
 								},
 								{
 									"key": "Connection",
@@ -4276,7 +5653,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJuYW1lIjoic3VwZXJhZG1pbiIsImVtYWlsIjoic3VwZXJhZG1pbkBtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFE2bWswMldnWk10Nkl3aGV0UnhjSXVTWmIyWGV4cVJyLy5QdGVjMTR5SVJ4emdqRUcuNEwuIiwicm9sZSI6IlNVUEVSQURNSU4iLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0zMVQxMjo0ODo1NS45OTVaIiwidXBkYXRlZF9hdCI6bnVsbCwiZGVsZXRlZF9hdCI6bnVsbH0sImlhdCI6MTcxNzE2MTAyNSwiZXhwIjoxNzE3MjQ3NDI1fQ._-G3v_Xv_Osy4OOHOCGPkTldDFJnvEhaRtGGmoADukU",
+									"value": "{{tokenSuperAdmin}}",
 									"type": "string"
 								}
 							]
@@ -4284,11 +5661,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:5000/api/cars/:idCars/logs/",
+							"raw": "{{baseUrl}}/api/cars/:idCars/logs/",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "5000",
 							"path": [
 								"api",
 								"cars",
@@ -4312,11 +5688,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/cars/:idCars/logs/",
+									"raw": "{{baseUrl}}/api/cars/:idCars/logs/",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -4342,20 +5717,24 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
 								{
 									"key": "Content-Length",
-									"value": "889"
+									"value": "1410"
 								},
 								{
 									"key": "ETag",
-									"value": "W/\"379-nAqshqJ+juMnGJRxhZR/MJzv4+w\""
+									"value": "W/\"582-AJjBW0ZEW4Hnq8DsfwdPi4IN34g\""
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:43:19 GMT"
+									"value": "Thu, 13 Jun 2024 10:48:05 GMT"
 								},
 								{
 									"key": "Connection",
@@ -4367,7 +5746,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"status\": true,\n    \"message\": \"Success Get Logs By Cars Id\",\n    \"data\": {\n        \"cars\": [\n            {\n                \"id\": 4,\n                \"name\": \"Ubah Mobil 4\",\n                \"price\": 5000,\n                \"size\": \"Medium\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1717173688/web_bcr_cars/x5xqtghg0p2ysunbchpo.png\",\n                \"start_rent\": \"2024-05-17T12:22:09.482Z\",\n                \"finish_rent\": \"2024-05-18T12:22:09.482Z\",\n                \"available\": false,\n                \"created_at\": \"2024-05-31T16:40:36.081Z\",\n                \"updated_at\": \"2024-05-31T16:41:27.044Z\",\n                \"deleted_at\": \"2024-05-31T16:41:52.735Z\",\n                \"carsLogs\": [\n                    {\n                        \"action\": \"DELETE\",\n                        \"time_log\": \"2024-05-31T16:41:52.734Z\",\n                        \"users\": {\n                            \"name\": \"superadmin\",\n                            \"email\": \"superadmin@mail.com\",\n                            \"role\": \"SUPERADMIN\"\n                        }\n                    },\n                    {\n                        \"action\": \"UPDATE\",\n                        \"time_log\": \"2024-05-31T16:41:27.044Z\",\n                        \"users\": {\n                            \"name\": \"superadmin\",\n                            \"email\": \"superadmin@mail.com\",\n                            \"role\": \"SUPERADMIN\"\n                        }\n                    },\n                    {\n                        \"action\": \"INSERT\",\n                        \"time_log\": \"2024-05-31T16:40:36.081Z\",\n                        \"users\": {\n                            \"name\": \"superadmin\",\n                            \"email\": \"superadmin@mail.com\",\n                            \"role\": \"SUPERADMIN\"\n                        }\n                    }\n                ]\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"status\": true,\n    \"message\": \"Success Get Logs By Cars Id\",\n    \"data\": {\n        \"cars\": [\n            {\n                \"id\": 4,\n                \"typeDriver\": \"With Driver\",\n                \"plate\": \"BTW-1960\",\n                \"manufacture\": \"Honda\",\n                \"model\": \"Accord\",\n                \"image\": \"https://res.cloudinary.com/dpavtrweo/image/upload/v1718273959/web_bcr_cars/rrlfgpmjq0me6rss5tla.png\",\n                \"rentPerDay\": 500000,\n                \"capacity\": 4,\n                \"description\": \"Silver finish interior door handles. 160-amp alternator. Tire pressure monitoring system (TPMS). Cloth covered headliner.\",\n                \"transmission\": \"Automatic\",\n                \"available\": true,\n                \"type\": \"Sedan\",\n                \"year\": 2020,\n                \"availableAt\": \"2024-06-13T23:19:09.025Z\",\n                \"options\": [\n                    \"AM/FM Stereo\",\n                    \"Power Windows\",\n                    \"Power Locks\",\n                    \"Power Windows\",\n                    \"MP3 (Single Disc)\",\n                    \"A/C: Rear\"\n                ],\n                \"specs\": [\n                    \"Silver finish interior door handles\",\n                    \"160-amp alternator\",\n                    \"Tire pressure monitoring system (TPMS)\",\n                    \"Cloth covered headliner\",\n                    \"625-amp maintenance-free battery\",\n                    \"Torsion beam rear suspension w/stabilizer bar\",\n                    \"Impact-dissipating upper interior trim\",\n                    \"Dual front 2-stage airbags -inc: passenger occupant classification system w/twin-chamber airbag\"\n                ],\n                \"created_at\": \"2024-06-13T10:07:58.701Z\",\n                \"updated_at\": \"2024-06-13T10:19:17.354Z\",\n                \"deleted_at\": null,\n                \"carsLogs\": [\n                    {\n                        \"action\": \"UPDATE\",\n                        \"time_log\": \"2024-06-13T10:19:17.354Z\",\n                        \"users\": {\n                            \"name\": \"superadmin\",\n                            \"email\": \"superadmin@mail.com\",\n                            \"role\": \"SUPERADMIN\"\n                        }\n                    },\n                    {\n                        \"action\": \"INSERT\",\n                        \"time_log\": \"2024-06-13T10:07:58.701Z\",\n                        \"users\": {\n                            \"name\": \"superadmin\",\n                            \"email\": \"superadmin@mail.com\",\n                            \"role\": \"SUPERADMIN\"\n                        }\n                    }\n                ]\n            }\n        ]\n    }\n}"
 						},
 						{
 							"name": "Data not found (wrong id)",
@@ -4375,11 +5754,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/cars/:idCars/logs/",
+									"raw": "{{baseUrl}}/api/cars/:idCars/logs/",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -4405,6 +5783,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -4418,7 +5800,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:28:38 GMT"
+									"value": "Thu, 13 Jun 2024 10:48:30 GMT"
 								},
 								{
 									"key": "Connection",
@@ -4438,11 +5820,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/cars/:idCars/logs/",
+									"raw": "{{baseUrl}}/api/cars/:idCars/logs/",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -4468,6 +5849,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -4481,7 +5866,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:29:00 GMT"
+									"value": "Thu, 13 Jun 2024 10:48:45 GMT"
 								},
 								{
 									"key": "Connection",
@@ -4501,11 +5886,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:5000/api/cars/:idCars/logs/",
+									"raw": "{{baseUrl}}/api/cars/:idCars/logs/",
 									"host": [
-										"localhost"
+										"{{baseUrl}}"
 									],
-									"port": "5000",
 									"path": [
 										"api",
 										"cars",
@@ -4531,6 +5915,10 @@
 									"value": "Express"
 								},
 								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
 									"key": "Content-Type",
 									"value": "application/json; charset=utf-8"
 								},
@@ -4544,7 +5932,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 31 May 2024 16:31:18 GMT"
+									"value": "Thu, 13 Jun 2024 10:49:00 GMT"
 								},
 								{
 									"key": "Connection",
