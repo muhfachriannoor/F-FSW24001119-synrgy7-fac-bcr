@@ -4,12 +4,16 @@ import { Exception } from "@Exceptions/exception";
 
 export class UsersRepository {
   public async getAll(): Promise<UsersModel[]> {
-    return await UsersModel.query();
+    return await UsersModel.query()
+      .where("deleted_at", null);
   }
 
-  public async getById(id: number): Promise<UsersModel | undefined> {
-    const getUsers = await UsersModel.query().findById(id);
-    if(getUsers) {
+  public async getById(id: number): Promise<UsersModel[]> {
+    const getUsers = await UsersModel.query()
+      .where("deleted_at", null)
+      .where("id", id)
+
+    if(getUsers.length > 0) {
       return getUsers;
     } else {
       throw new Exception("Data not found", 404, {})

@@ -1,8 +1,4 @@
-import {
-  LoginAuth,
-  RegisterAuth,
-  AuthJWT,
-} from "@Interfaces/Auth/AuthInterface";
+import { LoginAuth, RegisterAuth, AuthJWT } from "@Interfaces/Auth/AuthInterface";
 import { Exception } from "@Exceptions/exception";
 import { AuthService } from "@Services/Auth/AuthService";
 import { AuthValidationData } from "@Validations/Auth/AuthValidation";
@@ -24,9 +20,8 @@ export class AuthController {
         password: req.body.password,
       };
 
-      const checkValidation: LoginAuth =
-        this.authValidationData.LoginAuthValidation(reqData);
-      const getAuthLogin: AuthJWT | undefined = await this.authService.login(reqData);
+      const checkValidation: LoginAuth = this.authValidationData.LoginAuthValidation(reqData);
+      const getAuthLogin: AuthJWT = await this.authService.login(reqData);
 
       res.status(201).json({
         status: true,

@@ -14,7 +14,7 @@ export class UsersService {
     return await this.usersRepository.getAll();
   }
 
-  public async getById(id: number): Promise<UsersModel | undefined> {
+  public async getById(id: number): Promise<UsersModel[]> {
     return await this.usersRepository.getById(id);
   }
 

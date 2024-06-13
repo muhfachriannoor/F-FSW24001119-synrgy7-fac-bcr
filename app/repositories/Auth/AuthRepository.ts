@@ -1,13 +1,29 @@
 import { UsersModel } from "@Models/Users/UsersModel";
-import { RegisterAuth } from "@Interfaces/Auth/AuthInterface";
+import { LoginAuth, RegisterAuth } from "@Interfaces/Auth/AuthInterface";
+import bcrypt from "bcrypt";
 import { Exception } from "@Exceptions/exception";
 
 export class AuthRepository {
-  public async checkLogin(email: string): Promise<UsersModel | undefined> {
-    const checkUser = await UsersModel.query().where("email", email).first();
+  public async checkLogin(data: LoginAuth): Promise<UsersModel> {
+    const checkUser = await UsersModel.query().where("email", data.email).first();
 
     if (checkUser === undefined) {
       throw new Exception("Email not found", 404, {});
+    }
+
+    const checkPassword = await bcrypt.compare(
+      data.password,
+      checkUser.password
+    );
+    
+    if (!checkPassword) {
+      throw new Exception("Wrong password", 401, {});
+    }
+
+    const checkRole = ["SUPERADMIN", "ADMIN"];
+
+    if(!checkRole.includes(checkUser.role)) {
+      throw new Exception("Members cannot log in on this route", 401, {});
     }
 
     if (checkUser.deleted_at !== null) {
