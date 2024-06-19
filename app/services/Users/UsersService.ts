@@ -14,7 +14,7 @@ export class UsersService {
     return await this.usersRepository.getAll();
   }
 
-  public async getById(id: number): Promise<UsersModel[]> {
+  public async getById(id: number): Promise<UsersModel | undefined> {
     return await this.usersRepository.getById(id);
   }
 
@@ -25,9 +25,11 @@ export class UsersService {
   }
 
   public async editUsers(id: number, data: UpdateUsers): Promise<any> {
-    const encryptedPassword = await bcrypt.hash(data.password, 10);
-    data.password = encryptedPassword;
-    return await this.usersRepository.editUsers(id,data);
+    if(data.password) {
+      const encryptedPassword = await bcrypt.hash(data.password, 10);
+      data.password = encryptedPassword;
+    }
+    return await this.usersRepository.editUsers(id, data);
   }
 
   public async delete(id: number): Promise<Number> {

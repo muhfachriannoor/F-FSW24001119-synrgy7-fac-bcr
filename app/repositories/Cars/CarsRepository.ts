@@ -9,12 +9,13 @@ export class CarsRepository {
       .orderBy("id", "desc");
   }
 
-  public async getById(id: number): Promise<CarsModel[]> {
-    const getCars = await CarsModel.query()
+  public async getById(id: number): Promise<CarsModel | undefined> {
+    const getCars =  await CarsModel.query()
       .where("deleted_at", null)
       .where("id", id)
+      .first()
 
-    if (getCars.length > 0) {
+    if (getCars) {
       return getCars;
     } else {
       throw new Exception("Data not found", 404, {});

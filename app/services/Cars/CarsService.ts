@@ -17,7 +17,7 @@ export class CarsService {
     return await this.carsRepository.getAll();
   }
 
-  public async getById(id: number): Promise<CarsModel[]> {
+  public async getById(id: number): Promise<CarsModel | undefined> {
     return await this.carsRepository.getById(id);
   }
 

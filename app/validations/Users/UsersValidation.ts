@@ -28,7 +28,7 @@ export class UsersValidationData {
       const usersSchema = Yup.object().shape({
         name: Yup.string().required(),
         email: Yup.string().email().required(),
-        password: Yup.string().required(),
+        password: Yup.string(),
       });
 
       usersSchema.validateSync(data, { abortEarly: false });

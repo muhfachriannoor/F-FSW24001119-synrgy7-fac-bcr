@@ -20,12 +20,6 @@ export class AuthRepository {
       throw new Exception("Wrong password", 401, {});
     }
 
-    const checkRole = ["SUPERADMIN", "ADMIN"];
-
-    if(!checkRole.includes(checkUser.role)) {
-      throw new Exception("Members cannot log in on this route", 401, {});
-    }
-
     if (checkUser.deleted_at !== null) {
       throw new Exception("Your account is inactive", 403, {});
     }

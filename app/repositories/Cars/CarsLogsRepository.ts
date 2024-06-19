@@ -2,8 +2,21 @@ import { CarsLogsModel } from "@Models/Cars/CarsLogsModel";
 import { CarsModel } from "@Models/Cars/CarsModel";
 import { CreateCarsLogs } from "@Interfaces/Cars/CarsInterface";
 import { AnyQueryBuilder } from "objection";
+import { Exception } from "@Exceptions/exception";
 
 export class CarsLogsRepository {
+  public async checkCarsId(id: number): Promise<CarsModel | undefined> {
+    const getCars = await CarsModel.query()
+      .where("id", id)
+      .first();
+
+    if (getCars) {
+      return getCars;
+    } else {
+      throw new Exception("Data not found", 404, {});
+    }
+  }
+
   public async getAllCarsLogs(): Promise<CarsModel[]> {
     return await CarsModel.query()
       .withGraphFetched("[carsLogs(selectLogs)]")
@@ -19,10 +32,11 @@ export class CarsLogsRepository {
               },
             });
         },
-      }).orderBy("id","desc");
+      })
+      .orderBy("id", "desc");
   }
 
-  public async getCarsLogsById(idCars: number): Promise<CarsModel[]> {
+  public async getCarsLogsById(idCars: number): Promise<CarsModel | undefined> {
     return await CarsModel.query()
       .where("id", idCars)
       .withGraphFetched("[carsLogs(selectLogs)]")
@@ -38,7 +52,8 @@ export class CarsLogsRepository {
               },
             });
         },
-      });
+      })
+      .first();
   }
 
   public async addCarsLogs(data: CreateCarsLogs): Promise<any> {

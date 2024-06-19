@@ -8,12 +8,13 @@ export class UsersRepository {
       .where("deleted_at", null);
   }
 
-  public async getById(id: number): Promise<UsersModel[]> {
+  public async getById(id: number): Promise<UsersModel | undefined> {
     const getUsers = await UsersModel.query()
       .where("deleted_at", null)
       .where("id", id)
+      .first()
 
-    if(getUsers.length > 0) {
+    if(getUsers) {
       return getUsers;
     } else {
       throw new Exception("Data not found", 404, {})

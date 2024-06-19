@@ -123,12 +123,6 @@ paths:
                     status: false
                     message: Wrong password
                     data: {}
-                example-1:
-                  summary: Members cannot log in
-                  value:
-                    status: false
-                    message: Members cannot log in on this route
-                    data: {}
         '403':
           description: Forbidden
           headers:

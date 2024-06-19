@@ -47,7 +47,7 @@ export class CarsController {
 
   public async getById(req: Request, res: Response): Promise<void> {
     try {
-      const getCarsId: CarsModel[] = await this.carsService.getById(Number(req.params.id));
+      const getCarsId: CarsModel | undefined = await this.carsService.getById(Number(req.params.id));
       res.status(200).json({
         status: true,
         message: "Success Get Cars By Id",
@@ -154,7 +154,7 @@ export class CarsController {
         action: "UPDATE",
       };
 
-      const checkDataCars: CarsModel[] = await this.carsService.getById(Number(req.params.id));
+      const checkDataCars: CarsModel | undefined = await this.carsService.getById(Number(req.params.id));
       const checkValidation: UpdateCars = this.carsValidationData.UpdateCarsValidation(reqData);
       await this.carsService.editCars(Number(req.params.id), reqData, reqAuth, file);
 
@@ -186,7 +186,7 @@ export class CarsController {
         action: "DELETE",
       };
 
-      const checkDataCars: CarsModel[] = await this.carsService.getById(Number(req.params.id));
+      const checkDataCars: CarsModel | undefined = await this.carsService.getById(Number(req.params.id));
       await this.carsService.delete(Number(req.params.id), reqAuth);
 
       res.status(200).json({
@@ -239,8 +239,9 @@ export class CarsController {
 
   public async getCarsLogsById(req: Request, res: Response): Promise<void> {
     try {
-      const checkDataCars: CarsModel[] = await this.carsService.getById(Number(req.params.idCars));
-      const getCarsLogsId: CarsModel[] = await this.carsLogsService.getCarsLogsById(Number(req.params.idCars));
+      const checkDataCars: CarsModel | undefined =
+        await this.carsLogsService.checkCarsId(Number(req.params.idCars));
+      const getCarsLogsId: CarsModel | undefined = await this.carsLogsService.getCarsLogsById(Number(req.params.idCars));
 
       res.status(200).json({
         status: true,

@@ -44,7 +44,7 @@ export class UsersController {
 
   public async getById(req: Request, res: Response): Promise<void> {
     try {
-      const getUsersId: UsersModel[] = await this.usersService.getById(Number(req.params.id));
+      const getUsersId: UsersModel | undefined = await this.usersService.getById(Number(req.params.id));
       res.status(200).json({
         status: true,
         message: "Success Get Users By Id",
@@ -111,7 +111,7 @@ export class UsersController {
         updated_at: new Date(),
       };
 
-      const checkDataUsers: UsersModel[] = await this.usersService.getById(Number(req.params.id));
+      const checkDataUsers: UsersModel | undefined = await this.usersService.getById(Number(req.params.id));
       const checkValidation: UpdateUsers = this.usersValidationData.UpdateUsersValidation(reqData);
       await this.usersService.editUsers(Number(req.params.id), reqData);
 
@@ -137,7 +137,7 @@ export class UsersController {
 
   public async delete(req: Request, res: Response): Promise<void> {
     try {
-      const checkDataUsers: UsersModel[] = await this.usersService.getById(Number(req.params.id));
+      const checkDataUsers: UsersModel | undefined = await this.usersService.getById(Number(req.params.id));
       await this.usersService.delete(Number(req.params.id));
 
       res.status(200).json({
