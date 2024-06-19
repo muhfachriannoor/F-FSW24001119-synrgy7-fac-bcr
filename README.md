@@ -2,8 +2,8 @@
 
 ### Instruksi
 
-1. Clone atau Download ke lokal
-2. Masuk ke direktori yang sudah di Clone/Download `cd your-name-directory`
+1. Clone/Download ke lokal dengan perintah `git clone -b Challenge_6 --single-branch https://github.com/muhfachriannoor/F-FSW24001119-synrgy7-fac-bcr.git`
+2. Masuk ke direktori yang sudah di Clone/Download `cd nama-direktori-anda`
 3. Selanjutnya menduplikasi file `.env.example` ke `.env` dan diisi dengan Database PostgreSQL milik Anda, akun Cloudinary dan JWT
 4. Jalankan perintah `npm install` untuk menginstall library yang dibutuhkan
 5. Jalankan perintah `npm run database:migrate` untuk membuat tabel melalui migration
