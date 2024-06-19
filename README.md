@@ -3,8 +3,8 @@
 ### Instruksi
 
 1. Clone/Download terlebih dahulu Backend di branch `Challenge_6` dan ikuti Instruksinya
-2. Selanjutnya Clone/Download branch `Challenge_7`
-2. Masuk ke direktori yang sudah di Clone/Download `cd your-name-directory`
+2. Selanjutnya Clone/Download branch `Challenge_7` dengan perintah `git clone -b Challenge_7 --single-branch https://github.com/muhfachriannoor/F-FSW24001119-synrgy7-fac-bcr.git`
+2. Masuk ke direktori yang sudah di Clone/Download `cd nama-direktori-anda`
 3. Selanjutnya menduplikasi file `.env.example` ke `.env` dan diisi dengan endpoint API yang ada di Backend
 4. Jalankan perintah `npm install` untuk menginstall library yang dibutuhkan
 5. Jalankan perintah `npm run build` untuk mengcompile React ke Production
