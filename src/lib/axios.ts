@@ -22,7 +22,6 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// punya hafid
 axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     if (response.status == 200 || response.status == 201) {
