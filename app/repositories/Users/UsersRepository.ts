@@ -22,13 +22,19 @@ export class UsersRepository {
   }
 
   public async addUsers(data: CreateUsers): Promise<any> {
-    return await UsersModel.query().insert({
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      role: data.role.toUpperCase(),
-      created_at: data.created_at,
-    });
+    const checkEmail = await UsersModel.query().where("email", data.email).first();
+    
+    if (checkEmail != undefined) {
+      throw new Exception("Email is already in use, please use another email", 404, {});
+    } else {
+      return await UsersModel.query().insert({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        role: data.role.toUpperCase(),
+        created_at: data.created_at,
+      });
+    }
   }
 
   public async editUsers(id: number, data: UpdateUsers): Promise<any> {
