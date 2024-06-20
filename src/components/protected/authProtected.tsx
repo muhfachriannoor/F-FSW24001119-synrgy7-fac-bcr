@@ -1,7 +1,6 @@
-import { useFetchCurrentUser } from "@/features/auth/useFetchCurrentUser";
 import { ReactElement, ReactNode } from "react";
-import SwalAlertProtected from "./swalAlertProtected";
 import { checkRole } from "@/lib/utils";
+import SwalAlertProtected from "./swalAlertProtected";
 
 type TAuthProcted = {
   children: ReactNode;
@@ -9,7 +8,6 @@ type TAuthProcted = {
 }
 
 export default function AuthProtected({ children, role }: TAuthProcted): ReactElement {
-  const { dataUsers } = useFetchCurrentUser();
 
   return (
     <>

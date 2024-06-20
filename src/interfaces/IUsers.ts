@@ -13,5 +13,5 @@ export interface IFormUsers {
   name: string;
   email: string;
   password?: string;
-  role: string;
+  role?: string;
 }

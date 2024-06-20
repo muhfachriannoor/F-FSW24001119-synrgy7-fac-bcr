@@ -6,7 +6,13 @@ import { CarsProvider } from "./context/provider/CarsProvider";
 import { GlobalHistory } from "@/lib/utils";
 import App from './App.tsx'
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false
+    }
+  }
+});
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>

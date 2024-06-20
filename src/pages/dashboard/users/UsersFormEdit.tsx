@@ -54,13 +54,11 @@ export default function CarsFormEdit(): ReactElement {
         name: data.name,
         email: data.email,
         password: data.password,
-        role: "admin",
       };
     }else{
       dataInput = {
         name: data.name,
         email: data.email,
-        role: "admin",
       };
     }
     mutate(dataInput);

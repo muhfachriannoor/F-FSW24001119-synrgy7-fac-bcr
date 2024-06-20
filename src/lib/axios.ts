@@ -37,6 +37,7 @@ axiosInstance.interceptors.response.use(
         localStorage.removeItem("auth_name");
         localStorage.removeItem("auth_role");
 
+        globalNavigate("/");
         Swal.fire({
           title: "Unauthorized",
           icon: "error",
@@ -44,11 +45,8 @@ axiosInstance.interceptors.response.use(
           //background: "#000",
           timer: 2000,
           timerProgressBar: true,
-        }).then(() => {
-          globalNavigate(-1);
-        });
-        
-     } else if((error as any).response.data.message == "Data not found") {
+        })
+      } else if((error as any).response.data.message == "Data not found") {
         Swal.fire({
           title: `Data not found`,
           icon: "info",
