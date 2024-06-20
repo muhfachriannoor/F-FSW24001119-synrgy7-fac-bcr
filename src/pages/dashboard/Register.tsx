@@ -1,11 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactElement, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useNavigate, Link } from "react-router-dom";
+import { useRegisterUser } from "@/features/auth/useRegisterUser";
 import { IRegister } from "@/interfaces/IAuth";
-import { useMutation } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
-import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 import Swal from "sweetalert2";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -18,41 +15,35 @@ export default function Register(): ReactElement {
   const [errorData, setErrorData] = useState<string[]>([]);
   const navigate = useNavigate();
   
-  const useRegisterPost = async(request: IRegister) => {
-    const response = await axios.post(`${import.meta.env.VITE_AXIOS_BASE_URL}/api/register`, request);
-    return response.data;
-  }
-  
-  const { mutate, isPending } = useMutation({
-    mutationFn: useRegisterPost,
+  const { mutate, isPending } = useRegisterUser({
     onSuccess: () => {
       Swal.fire({
         title: "Registration is successful, you can sign in",
         icon: "success",
         showCloseButton: true,
         //background: "#000",
+      }).then(() => {
+        navigate("/login");
       });
-
-      navigate("/login");
     },
-    onError: (error) => {
+    onError: (error: any) => {
       setIsError(true);
-      if ((error as any).response.data.message == "Validation Error") {
-        setErrorMessage((error as any).response.data.message);
-        setErrorData((error as any).response.data.data.validations);
+      if (error.message.response.data.message == "Validation Error") {
+        setErrorMessage(error.message.response.data.message);
+        setErrorData(error.message.response.data.data.validations);
       } else {
-        setErrorMessage((error as any).response.data.message);
+        setErrorMessage(error.message.response.data.message);
         setErrorData([]);
       }
     },
   });
 
   const onSubmit: SubmitHandler<IRegister> = (data): void => {
-    const dataLogin = {
+    const dataInput = {
       ...data
     }
 
-    mutate(dataLogin);
+    mutate(dataInput);
   }
 
   return (

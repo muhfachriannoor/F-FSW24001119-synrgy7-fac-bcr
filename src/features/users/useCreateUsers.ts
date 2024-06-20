@@ -4,7 +4,6 @@ import { axiosInstance } from "@/lib/axios";
 
 export const useCreateUsers = ({ onSuccess, onError }: any) => {
   const createUsers = async (requestDataUsers: IFormUsers) => {
-    console.log("cek data", requestDataUsers);
     const response = await axiosInstance.post("/api/users", requestDataUsers);
     return response;
   };

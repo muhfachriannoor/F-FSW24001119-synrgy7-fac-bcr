@@ -1,9 +1,8 @@
 import { ReactElement, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
+import { useLoginUser } from "@/features/auth/useLoginUser";
 import { ILogin } from "@/interfaces/IAuth";
-import { useMutation } from "@tanstack/react-query";
-import { axiosInstance } from "@/lib/axios";
 import Alert from "react-bootstrap/Alert";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "@/assets/css/login.css"
@@ -15,27 +14,21 @@ export default function Login(): ReactElement {
   const [errorData, setErrorData] = useState<string[]>([]);
   const navigate = useNavigate();
   
-  const useLoginPost = async(request: ILogin) => {
-    const response = await axiosInstance.post("/api/login", request);
-    return response.data;
-  }
-  
-  const { mutate, isPending } = useMutation({
-    mutationFn: useLoginPost,
-    onSuccess: (data) => {
-      localStorage.setItem("auth_token", data.data.users.token);
-      localStorage.setItem("auth_name", data.data.users.name);
-      localStorage.setItem("auth_role", data.data.users.role);
+  const { mutate, isPending } = useLoginUser({
+    onSuccess: (data: any) => {
+      localStorage.setItem("auth_token", data.data.data.users.token);
+      localStorage.setItem("auth_name", data.data.data.users.name);
+      localStorage.setItem("auth_role", data.data.data.users.role);
 
       navigate("/dashboard");
     },
-    onError: (error) => {
+    onError: (error: any) => {
       setIsError(true);
-      if ((error as any).message.response.data.message == "Validation Error") {
-        setErrorMessage((error as any).message.response.data.message);
-        setErrorData((error as any).message.response.data.data.validations);
+      if (error.message.response.data.message == "Validation Error") {
+        setErrorMessage(error.message.response.data.message);
+        setErrorData(error.message.response.data.data.validations);
       } else {
-        setErrorMessage((error as any).message.response.data.message);
+        setErrorMessage(error.message.response.data.message);
         setErrorData([]);
       }
     },
