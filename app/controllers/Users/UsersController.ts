@@ -107,7 +107,6 @@ export class UsersController {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
-        role: "ADMIN",
         updated_at: new Date(),
       };
 

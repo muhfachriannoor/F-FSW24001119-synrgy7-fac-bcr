@@ -19,7 +19,7 @@ export interface CreateUsers {
 export interface UpdateUsers {
   name: string;
   email: string;
-  password: string;
-  role: string;
+  password?: string;
+  role?: string;
   updated_at: Date;
 }

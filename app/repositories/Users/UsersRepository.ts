@@ -42,7 +42,6 @@ export class UsersRepository {
       name: data.name,
       email: data.email,
       password: data.password,
-      role: data.role,
       updated_at: data.updated_at,
     });
   }
