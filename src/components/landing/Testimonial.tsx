@@ -10,11 +10,20 @@ export default function Testimonial() {
   const owlNavNext: string =
     '<div class="circle-icon btn bg--outline-green-04 mt-3 mx-2"><i class="fa-solid fa-chevron-right"></i></div>';
 
-  const owlResponsive = {
-    600: {
-      items: 2,
-    },
-  };
+  const owlOptions = {
+    margin: 30,
+    center: true,
+    items: 1,
+    loop: true,
+    nav: true,
+    dots: false,
+    navText: [`${owlNavPrev}`,`${owlNavNext}`],
+    responsive:{
+        600:{
+          items:2
+        }
+    }
+  }
 
   return (
     <section id="testimonial" className="section-testimonial">
@@ -26,17 +35,7 @@ export default function Testimonial() {
               Berbagai review positif dari para pelanggan kami
             </p>
           </div>
-          <OwlCarousel
-            className="owl-theme mt-3"
-            margin={30}
-            center={true}
-            items={1}
-            loop={true}
-            nav={true}
-            dots={false}
-            responsive={owlResponsive}
-            navText={[owlNavPrev, owlNavNext]}
-          >
+          <OwlCarousel className="owl-theme mt-3" {...owlOptions}>
             <div className="item">
               <div className="testimonial__card card h-100 bg--gray">
                 <div className="row">
