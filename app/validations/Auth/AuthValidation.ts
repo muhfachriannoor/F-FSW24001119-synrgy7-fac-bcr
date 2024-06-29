@@ -12,7 +12,7 @@ export class AuthValidationData {
 
       authSchema.validateSync(data, { abortEarly: false });
     } catch (error) {
-      if (error instanceof Yup.ValidationError) {       
+      if (error instanceof Yup.ValidationError) {
         throw new Exception("Validation Error", 403, {
           validations: error.inner.map((err) => err.message),
         });
@@ -22,7 +22,7 @@ export class AuthValidationData {
     }
   }
 
-  public RegisterAuthValidation(data: LoginAuth): any {
+  public RegisterAuthValidation(data: RegisterAuth): any {
     try {
       const authSchema = Yup.object().shape({
         name: Yup.string().required(),
